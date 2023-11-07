@@ -1,0 +1,50 @@
+.ProductDetail-light {
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+  width: 100%;
+  justify-content: space-between;
+
+  color: rgb(255, 255, 255);
+}
+.ProductDetail-light h1 {
+  margin-top: 20px;
+}
+.CardDetail {
+  max-height: 400px;
+}
+.CardDetail img {
+  margin: auto;
+  min-height: 150px;
+  max-height: 200px;
+  max-width: 200px;
+  min-width: 150px;
+}
+
+.ProductDetail-dark {
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+  width: 100%;
+  justify-content: space-between;
+}
+.ProductDetail-dark h1 {
+  margin-top: 20px;
+}
+.ProductSpecs {
+  padding: 20px;
+  font-weight: bold;
+  width: 50%;
+  margin-top: 20px;
+  margin: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.466);
+  border-radius: 5px;
+  
+}
+.ProductDetail {
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+  width: 100%;
+  justify-content: space-between;
+}

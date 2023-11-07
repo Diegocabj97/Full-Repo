@@ -1,0 +1,60 @@
+.App-light {
+  margin: auto;
+  width: 70%;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.carrito {
+  width: 40px;
+  height: 30px;
+}
+
+.read-the-docs {
+  color: #888;
+}
+nav {
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+  z-index: 1;
+}
+nav ul :hover {
+  background-color: rgb(3, 47, 97);
+  transition: 0.7s;
+}
+nav ul :hover li :hover {
+  background-color: rgb(3, 47, 97);
+  transition: 0.7s;
+}
+h2 {
+  display: flex;
+  justify-content: center;
+  background-color: #ff0000;
+}
+
+/* //////////////////LIGHT//////////////   */
+
+.App-light .navbar button {
+  border: 3px black solid;
+  border-radius: 10px;
+}
+
+/* //////////////////DARK//////////////   */
+
+.App-dark {
+  background-color: rgba(0, 0, 0, 0.863);
+  margin: auto;
+  width: 70%;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  
+  border-radius: 25px;
+}
+.App-dark .navbar .btn-danger {
+  border: 3px white solid;
+  border-radius: 10px;
+}
+.App-dark .navbar .dropdown-menu {
+  background-color: rgb(32, 32, 32);
+  color: black;
+}
+.App-dark .navbar .NavItem:hover{
+  color: black;
+}

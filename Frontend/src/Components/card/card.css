@@ -1,0 +1,32 @@
+.card {
+  display: flex;
+  justify-content: space-evenly;
+  margin: auto;
+  margin: 20px;
+  min-height: 450px;
+  max-height: 400px;
+  max-width: 370px;
+  min-width: 150px;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2);
+  transition: all 400ms ease;
+}
+.card:hover {
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.4);
+  transform: translateY(-1%);
+}
+
+.cardImg {
+  margin: auto;
+  min-height: 150px;
+  max-height: 200px;
+  max-width: 200px;
+  min-width: 150px;
+}
+.cardPrice{
+  font-size: 20px;
+  color: rgb(0, 0, 0);
+  background-color: rgba(128, 128, 128, 0.377);
+  font-weight: bold;
+}

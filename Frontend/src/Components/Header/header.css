@@ -1,0 +1,20 @@
+header {
+  background-image: url(/src/assets/img/banner.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+}
+.headerIndex h3 {
+  display: flex;
+  justify-content: center;
+  height: fit-content;
+  color: rgb(255, 255, 255);
+  font-size: 20px;
+  width: auto;
+  font-weight: bold;
+  border-bottom: 1px solid;
+  background-color: rgba(165, 42, 42, 0.575);
+}
