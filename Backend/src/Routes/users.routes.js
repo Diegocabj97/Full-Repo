@@ -11,8 +11,8 @@ import {
 const userRouter = Router();
 
 userRouter.get("/", getAll);
-userRouter.get("/:uid", getById);
-userRouter.put("/:uid", putById);
+userRouter.get("/:uid", passportError("jwt"), getById);
+userRouter.put("/:uid", passportError("jwt"), putById);
 userRouter.delete("/:uid", authorization("admin"), deleteByid);
 
 export default userRouter;
