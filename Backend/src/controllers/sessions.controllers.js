@@ -3,41 +3,34 @@ import { generateToken } from "../utils/jwt.js";
 export const login = async (req, res) => {
   try {
     if (!req.user) {
-      // Si req.user existe, significa que el usuario ha iniciado sesión.
-      res.status(200).send({
-        mensaje: "Usuario Invalido",
-      });
-    } else {
-      //Sin jwt / session en BDD
-      /*  req.session.user = {
-        first_name: req.user.first_name,
-        last_name: req.user.last_name,
-        email: req.user.email,
-        age: req.user.age,
-      
-      }; 
-        res.status(200).send({ mensaje: "Has iniciado sesión" });
-        */
-      const token = generateToken(req.user);
-
-      res
-        .status(200)
-        .send({ mensaje: "Has iniciado sesión  /  token: ", token });
-      console.log("Has iniciado sesión");
+      return res.status(401).send({ mensaje: "Usuario invalido" });
     }
+    /*
+      Si se usa session en BDD,
+      req.session.user = {
+          first_name: req.user.first_name,
+          last_name: req.user.last_name,
+          age: req.user.age,
+          email: req.user.email
+          res.status(200).send({mensaje: "Usuario logueado"})
+      }*/
+
+    const token = generateToken(req.user);
+
+    res.status(200).send({ token });
   } catch (error) {
-    res.status(500).send({ mensaje: `Error al iniciar sesión ${error}` });
+    res.status(500).send({ mensaje: `Error al iniciar sesion ${error}` });
   }
 };
 export const register = async (req, res) => {
   try {
     if (!req.user) {
-      return res.status(501).send(console.log("Usuario ya existente"));
+      return res.status(501).send("Usuario ya existente");
     } else {
-      res.status(200).send(console.log("Usuario registrado"));
+      res.status(200).send("Usuario registrado");
     }
   } catch (error) {
-    res.status(500).send(console.log(`Error al registrar usuario ${error}`));
+    res.status(500).send(`Error al registrar usuario ${error}`);
   }
 };
 export const logout = async (req, res) => {
@@ -46,7 +39,7 @@ export const logout = async (req, res) => {
     /* if (req.session.login) {
       req.session.destroy();
     } */
-    res.clearCookie("jwtCookie", { path: ("/") });
+    res.clearCookie("jwtCookie", { path: "/" });
     console.log("Usuario deslogeado");
     res.status(200).send("Usuario deslogeado");
   } catch (error) {

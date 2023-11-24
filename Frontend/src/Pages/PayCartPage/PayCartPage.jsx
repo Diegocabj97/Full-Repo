@@ -46,16 +46,31 @@ const PayCartPage = () => {
     const match = values.Email === values.EmailConfirm;
     setEmailMatch(match);
     if (match) {
-      const docRef = await addDoc(collection(db, "Compras Recibidas"), {
-        values,
-      });
-      setPurchaseID(docRef.id);
-      console.log(docRef.id);
-      setValues(initialState);
-      setCart([]);
+      try {
+        const response = await fetch(
+          "http://localhost:8080/api/cart/:cartId/purchase",
+          {
+            method: "GET",
+            headers: {
+              "Content-type": "application/json",
+            },
+            body: JSON.stringify(formData),
+          }
+        );
+      } catch (error) {
+        error: "Error al redireccionar al ticket";
+      }
     } else {
-      setHighlight(true); // Activar la iluminación roja si los correos electrónicos no coinciden
+      console.log("email incorrecta");
     }
+
+    const docRef = await addDoc(collection(db, "Compras Recibidas"), {
+      values,
+    });
+    setPurchaseID(docRef.id);
+    console.log(docRef.id);
+    setValues(initialState);
+    setCart([]);
   };
   const total = cart.reduce((acc, el) => acc + el.precio * el.cantidad, 0);
   return total > 0 ? (

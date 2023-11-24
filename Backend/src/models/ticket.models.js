@@ -1,33 +1,41 @@
 import { Schema, model } from "mongoose";
-import paginate from "mongoose-paginate-v2";
-import { v4 as uuidv4 } from "uuid";
+
 const ticketSchema = new Schema({
-  code: {
-    type: String,
-    unique: true,
-  },
-  purchase_dateTime: {
+  products: [
+    {
+      id_prod: {
+        type: Schema.Types.ObjectId,
+        ref: "products",
+        required: true,
+      },
+      quantity: {
+        type: Number,
+        required: true,
+      },
+    },
+  ],
+  purchase_datetime: {
     type: Date,
-    default: Date.now,
+    default: Date.now(),
   },
   amount: {
     type: Number,
     required: true,
   },
   purchaser: {
+    type: Schema.Types.ObjectId,
+    ref: "users",
+    required: true,
+  },
+  cart: {
+    type: Schema.Types.ObjectId,
+    ref: "carts",
+  },
+  code: {
     type: String,
     required: true,
+    unique: true,
   },
 });
 
-ticketSchema.pre("save", async function (next) {
-  try {
-    if (!this.code) {
-      this.code = uuidv4();
-    }
-  } catch (error) {
-    next(error);
-  }
-});
-//Parametro 1: Nombre de la coleccion - Parametro 2:Schema
 export const ticketModel = model("tickets", ticketSchema);

@@ -35,7 +35,17 @@ export const postCart = async (req, res) => {
         } else {
           cart.products.push({ id_prod: pid, quantity: quantity });
         }
-        await CartModel.findByIdAndUpdate(cid, cart);
+
+        // Recalcular el total
+        const total = cart.products.reduce(
+          (acc, item) => acc + item.quantity * item.id_prod.price,
+          0
+        );
+
+        // Actualizar el total en el carrito
+        cart.default = [{ products: cart.products, total }];
+        await cart.save();
+
         return res.status(200).send({
           respuesta: "Ok",
           mensaje: "Producto actualizado en el carrito",
@@ -92,7 +102,14 @@ export const deleteCart = async (req, res) => {
   try {
     const cart = await CartModel.findById(cid);
     if (cart) {
-      cart.products = []; // Elimina todos los productos del carrito
+      cart.products = [];
+
+      const total = cart.products.reduce(
+        (acc, item) => acc + item.quantity * item.id_prod.price,
+        0
+      );
+
+      cart.default = [{ products: cart.products, total }];
       await cart.save();
 
       return res.status(200).send({

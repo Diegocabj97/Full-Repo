@@ -21,13 +21,6 @@ const NavBarImport = ({
   value,
   setButtonState,
 }) => {
-  const [show, setShow] = useState(false);
-  const showDropdown = (e) => {
-    setShow(!show);
-  };
-  const hideDropdown = (e) => {
-    setShow(false);
-  };
   const { cart, setCart } = useContext(CartContext);
   const navigate = useNavigate();
   const { isAuthenticated, login, logout } = useAuth();
@@ -42,7 +35,7 @@ const NavBarImport = ({
     if (response.status == 200) {
       console.log("Enviaste señal de fetch");
       console.log("Has cerrado sesion");
-      navigate("/");
+      navigate("/login");
     } else {
       console.log("Error al cerrar sesion");
     }
@@ -66,7 +59,7 @@ const NavBarImport = ({
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
             <NavDropdown
-              className="dropdown"
+              className="dropdownCategories"
               title="Categorías"
               align="start"
               id="collasible-nav-dropdown"
@@ -103,10 +96,10 @@ const NavBarImport = ({
           </Nav>
           <Nav>
             <NavDropdown
-              className="dropdown m-2"
+              className="dropdown m-3"
               title="Contacto"
               align="end"
-              id="collasible-nav-dropdown"
+              id="collasible-nav-dropdown "
             >
               <LinkContainer to="/Contact">
                 <Nav.Link className="NavItem">Contactanos</Nav.Link>
@@ -123,13 +116,12 @@ const NavBarImport = ({
                 <NavDropdown
                   title="Ingresar"
                   id="collasible-nav-dropdown"
-                  show={!show}
                   drop="end"
-                  onMouseEnter={showDropdown}
-                  onMouseLeave={hideDropdown}
                   className="dropdownLogin"
                 >
-                  <LoginPage className="loginForm">Ingresar</LoginPage>
+                  <Container classname="loginFor">
+                    <LoginPage></LoginPage>
+                  </Container>
                 </NavDropdown>
               )}
               <LinkContainer to="/Register">

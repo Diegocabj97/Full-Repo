@@ -1,7 +1,6 @@
 import { Router } from "express";
 import passport from "passport";
 import { authorization, passportError } from "../utils/messagesError.js";
-import { generateToken } from "../utils/jwt.js";
 const SessionRouter = Router();
 import {
   GithubLogin,

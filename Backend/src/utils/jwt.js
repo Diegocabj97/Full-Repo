@@ -1,5 +1,6 @@
+import "dotenv/config";
 import jwt from "jsonwebtoken";
-import "dotenv/config"
+
 export const generateToken = (user) => {
   /*
         1° parametro: Objeto asociado al token (Usuario)
@@ -13,15 +14,6 @@ export const generateToken = (user) => {
 
   return token;
 };
-/*  generateToken({
-  _id: "6515cc3370b195f75c1b6c4a",
-  first_name: "Diego Javier",
-  last_name: "Adrian",
-  age: "26",
-  email: "test@test.com",
-  password: "$2b$15$69cKFv1113t7y0n08rn1Ku.s4tn3oDMPrkdkAHR/UlnG8I6js8Nv6",
-  role: "user",
-});  */
 
 export const authToken = (req, res, next) => {
   //Consultar al header para obtener el Token

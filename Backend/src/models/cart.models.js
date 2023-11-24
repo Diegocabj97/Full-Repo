@@ -2,6 +2,11 @@ import { Schema, model } from "mongoose";
 
 const cartSchema = new Schema({
   id: Number,
+  date: {
+    type: String,
+    required: true,
+    default: Date.now,
+  },
   products: {
     type: [
       {
@@ -21,10 +26,12 @@ const cartSchema = new Schema({
       required: true,
     },
   },
-  default: [],
 });
+
+// Corregir la ruta de populate
 cartSchema.pre("findOne", function () {
   this.populate("products.id_prod");
 });
-//Parametro 1: Nombre de la coleccion - Parametro 2:Schema
+
+// Parametro 1: Nombre de la coleccion - Parametro 2: Schema
 export const CartModel = model("carts", cartSchema);

@@ -56,14 +56,14 @@ const LoginPage = () => {
     <div>
       <h3>Inicia sesión!</h3>
       <div>
-        <Form className="d-flex" onSubmit={onSubmit} ref={formRef}>
+        <Form className="d-flex loginForm" onSubmit={onSubmit} ref={formRef}>
           <Form.Control
             type="email"
             placeholder="Email"
             name="email"
             value={formData.email}
             onChange={handleOnChange}
-            className="me-2"
+            className="mb-2 me-2"
             aria-label="Search"
           />
           <Form.Control
@@ -72,7 +72,7 @@ const LoginPage = () => {
             name="password"
             value={formData.password}
             onChange={handleOnChange}
-            className="me-2"
+            className="mb-2 me-2"
             aria-label="Search"
           />
           <Button type="submit" variant="danger">

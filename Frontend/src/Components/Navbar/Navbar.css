@@ -16,21 +16,24 @@
 .NavItem:hover {
   background-color: rgb(211, 211, 211);
 }
-.dropdown-menu {
+
+.dropdown-menu.show.dropdown-menu-end {
   background-color: rgb(255, 255, 255);
- 
-}
-.dropdownLogin{
+  max-width: 200px;
   text-align: center;
 }
-.loginForm{
-  width: auto;
-  font-size: 10px;
+.dropdown-menu.show {
+  text-align: center;
+  width: 300px;
+}
+.dropdownCategories {
+  max-width: 200px;
+  text-align: center;
+  
 }
 .SearchBtn {
   margin-top: 5px;
   margin-right: 10px;
-  
 }
 .BtnLight {
   color: rgb(0, 0, 0);
@@ -45,4 +48,21 @@
   border-radius: 10px;
   width: 20%;
   text-align: center;
+}
+
+/* MEDIA */
+@media (max-width: 990px) {
+  .dropdown-menu.show {
+    text-align: center;
+    position: relative;
+    max-width: 196px;
+    position: static;
+    border: none;
+  }
+  .dropdown-menu.show.dropdown-menu-end {
+    background-color: rgb(255, 255, 255);
+    max-width: 200px;
+    text-align: center;
+    border: 1px rgba(128, 128, 128, 0.144) solid;
+  }
 }

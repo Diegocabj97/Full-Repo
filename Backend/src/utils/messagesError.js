@@ -1,37 +1,36 @@
 import passport from "passport";
-//Funcion para retornar errores
 
-export const passportError = (strategy) => {
-  return async (req, res, next) => {
-    passport.authenticate(strategy, (error, user, info) => {
-      if (error) {
-        return next(error);
-      }
-      if (!user) {
-        return res
-          .status(401)
-          .send({ error: info.messages ? info.messages : info.toString() });
-      }
+//Funcion general para retornar errores es las estrategias de passport
 
-      req.user = user;
-      next();
-    })(req, res, next);
-  };
-};
+export const passportError = (strategy) => { //Voy a enviar local, github o jwt
+    return async (req, res, next) => {
+        passport.authenticate(strategy, (error, user, info) => {
+            if (error) {
+                return next(error) //Que la funcion que me llame maneje como va a responder ante mi error
+            }
+            if (!user) {
 
-export const authorization = (rol) => {
-  //rol = 'Admin' desde ruta 'Crear Producto'
-  return async (req, res, next) => {
-    console.log("Rol del usuario: ", req.user.user.role);
-    console.log("Se autoriza solo a los: ", rol);
-    if (!req.user) {
-      return res.status(401).send({ error: "User no autorizado" });
+                return res.status(401).send({ error: info.messages ? info.messages : info.toString() })
+
+            }
+
+            req.user = user
+            next()
+        })(req, res, next) //Esto es por que me va a llamar un middleware
+
     }
-    if (req.user.user.role != rol) {
-      return res
-        .status(403)
-        .send({ error: "Usuario no tiene los permisos necesarios" });
+}
+
+//Recibo un rol y establezco la capacidad del usuario
+export const authorization = (role) => { //rol = 'Admin' desde ruta 'Crear Producto'
+    return async (req, res, next) => {
+
+        if (!req.user) {
+            return res.status(401).send({ error: 'User no autorizado' })
+        }
+        if (req.user.user.role != role) {
+            return res.status(403).send({ error: 'Usuario no tiene los permisos necesarios' })
+        }
+        next()
     }
-    next();
-  };
-};
+}

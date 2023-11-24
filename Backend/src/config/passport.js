@@ -1,20 +1,20 @@
-import local from "passport-local";
-import passport from "passport";
-import jwt from "passport-jwt";
-import "dotenv/config";
-import { createHash, validatePassword } from "../utils/bcrypt.js";
+import local from "passport-local"; //Importo la estrategia
 import githubStrategy from "passport-github2";
+import jwt from "passport-jwt";
+import passport from "passport";
+import { createHash, validatePassword } from "../utils/bcrypt.js";
 import { userModel } from "../models/users.models.js";
+import "dotenv/config";
 
-// Defino la estrategia a utilizar
+//Defino la estregia a utilizar
 const LocalStrategy = local.Strategy;
 const JWTStrategy = jwt.Strategy;
 const ExtractJWT = jwt.ExtractJwt; //Extrar de las cookies el token
 
 const initializePassport = () => {
   const cookieExtractor = (req) => {
-    console.log(req.headers.authorization)
-    const token = req.headers.authorization ? req.headers.authorization : {};
+    //En lugar de tomar de las cookies directamente todo de la peticion
+    const token = req.cookies.jwtCookie ? req.cookies.jwtCookie : {};
 
     console.log("cookieExtractor", token);
 
@@ -29,7 +29,7 @@ const initializePassport = () => {
         secretOrKey: process.env.JWT_SECRET,
       },
       async (jwt_payload, done) => {
-        //jwt_payload = info del token
+        //jwt_payload = info del token (en este caso, datos del cliente)
         try {
           console.log("JWT", jwt_payload);
           return done(null, jwt_payload);
@@ -39,6 +39,7 @@ const initializePassport = () => {
       }
     )
   );
+
   passport.use(
     "register",
     new LocalStrategy(
@@ -47,15 +48,17 @@ const initializePassport = () => {
         //Registro de usuario
 
         const { first_name, last_name, email, age } = req.body;
+
         try {
           const user = await userModel.findOne({ email: email });
-          if (user) {
-            //caso de error: Usuario existente ---> Envío false
 
-            console.log("Usuario existente");
+          if (user) {
+            //Caso de error: usuario existe
             return done(null, false);
           }
+
           //Crear usuario
+
           const passwordHash = createHash(password);
           const userCreated = await userModel.create({
             first_name: first_name,
@@ -64,11 +67,10 @@ const initializePassport = () => {
             email: email,
             password: passwordHash,
           });
-          //Usuario creado ---> envio UserCreated
-          console.log("Usuario creado");
+
           return done(null, userCreated);
         } catch (error) {
-          return done();
+          return done(error);
         }
       }
     )
@@ -77,26 +79,20 @@ const initializePassport = () => {
   passport.use(
     "login",
     new LocalStrategy(
-      {
-        usernameField: "email",
-      },
+      { usernameField: "email" },
       async (username, password, done) => {
         try {
           const user = await userModel.findOne({ email: username });
+
           if (!user) {
-            console.log("Usuario no existente");
-            return done(null, false); //Si el usuario no existe
-          } else {
-            //Si existe valido la password
-            if (validatePassword(password, user.password)) {
-              //Valido la password que me envia el cliente
-              return done(null, user);
-            } else {
-              //Credenciales no validas
-              console.log("Contraseña incorrecta");
-              return done(null, false);
-            }
+            return done(null, false);
           }
+
+          if (validatePassword(password, user.password)) {
+            return done(null, user);
+          }
+
+          return done(null, false);
         } catch (error) {
           return done(error);
         }
@@ -105,13 +101,11 @@ const initializePassport = () => {
   );
 
   //Inicializar la session del user
-
   passport.serializeUser((user, done) => {
     done(null, user._id);
   });
 
   //Eliminar la session del user
-
   passport.deserializeUser(async (id, done) => {
     const user = await userModel.findById(id);
     done(null, user);
