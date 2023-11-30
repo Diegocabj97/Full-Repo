@@ -21,8 +21,10 @@ import cookieParser from "cookie-parser";
 import passport from "passport";
 import initializePassport from "./config/passport.js";
 //////////////////////
-//MAILING
+//MAILING y LOGGERS
 import nodemailer from "nodemailer";
+import { Logger } from "winston";
+import { addlogger } from "./utils/logger.js";
 //////////////////////
 
 // CORS OPTIONS
@@ -118,6 +120,28 @@ app.use(passport.session());
 
 //Routes
 app.use("/", router);
+app.use(addlogger);
+app.get("/info", (req, res) => {
+  req.logger.info("INFO");
+  req.res.send("Hola!");
+});
+app.get("/error", (req, res) => {
+  req.logger.error("ERROR");
+  req.res.send("Hola!");
+});
+app.get("/debug", (req, res) => {
+  req.logger.debug("DEBUG");
+  req.res.send("Hola!");
+});
+app.get("/fatal", (req, res) => {
+  req.logger.fatal("FATAL");
+  req.res.send("Hola!");
+});
+
+app.get("/warning", (req, res) => {
+  req.logger.warning("WARNING");
+  req.res.send("Hola!");
+});
 //Server
 app.listen(PORT, () => {
   console.log(`Server on Port ${PORT}`);
