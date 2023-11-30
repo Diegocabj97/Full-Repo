@@ -13,11 +13,3 @@ export const fakerprodModel = () => {
     thumbnail: faker.image.avatarGitHub(),
   };
 };
-const createRandomProduct = (cantProds) => {
-  const products = [];
-  for (let i = 0; i < cantProds; i++) {
-    products.push(fakerprodModel());
-  }
-  return products;
-};
-console.log(createRandomProduct(100));

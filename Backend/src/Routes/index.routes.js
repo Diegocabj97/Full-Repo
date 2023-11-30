@@ -4,6 +4,7 @@ import cartRouter from "./Cart.Routes.js";
 import prodsRouter from "./Products.Routes.js";
 import SessionRouter from "./session.routes.js";
 import msgRouter from "./messages.routes.js";
+import mockRouter from "./mocking.routes.js";
 
 const router = Router();
 
@@ -12,5 +13,6 @@ router.use("/api/sessions", SessionRouter);
 router.use("/api/products", prodsRouter);
 router.use("/api/cart", cartRouter);
 router.use("/api/messages", msgRouter);
+router.use("/api/mocking", mockRouter);
 
 export default router;
