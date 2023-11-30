@@ -58,20 +58,14 @@ app.get("/mail", async (req, res) => {
   const resultado = await transporter.sendMail({
     from: "diegojadrian97@gmail.com",
     to: "diegocabj97@hotmail.com",
-    subject: "Prueba de mail",
+    subject: "Gil",
     html: `
     <div>
       <h1>
-      Holi toy probando mandar a traves de mi app
+      Este es un mail de prueba
       </h1>
+      <h2>Más le vale que me arreglen el aire</h2>
     </div>`,
-    attachments: [
-      {
-        filename: "TestImg",
-        path: __dirname + "/img/testimg.jpg",
-        cid: "test.jpg",
-      },
-    ],
   });
   console.log(resultado);
   res.send("Email enviado");
