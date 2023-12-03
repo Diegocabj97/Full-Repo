@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import { React, useState, useRef } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext.jsx";
@@ -9,7 +9,7 @@ const initialState = {
   password: "",
 };
 
-const LoginPage = () => {
+const LoginPage = ({ setButtonState }) => {
   const { isAuthenticated, login } = useAuth();
   const formRef = useRef(null);
   const navigate = useNavigate();
@@ -54,7 +54,9 @@ const LoginPage = () => {
 
   return (
     <div>
-      <h3>Inicia sesión!</h3>
+      <h3 className={setButtonState ? "loginDark" : "loginLight"}>
+        Inicia sesión!
+      </h3>
       <div>
         <Form className="d-flex loginForm" onSubmit={onSubmit} ref={formRef}>
           <Form.Control

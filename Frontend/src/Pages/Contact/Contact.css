@@ -1,0 +1,54 @@
+.formContainer .ContactForm {
+  display: flex;
+  height: 300px;
+  flex-direction: column;
+  transition: all 400ms ease;
+  border-radius: 10px;
+  width: 50%;
+  margin: auto;
+  margin-bottom: 100px;
+}
+.form-control {
+  height: 80%;
+  display: flex;
+  margin-top: 10px;
+}
+.sendBtn {
+  height: 100px;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: fit-content;
+}
+.h1-dark {
+  color: white;
+  margin: 20px;
+  margin-left: 10%;
+}
+.h1-light {
+  margin: 20px;
+  margin-left: 10%;
+}
+.h3-dark {
+  font-size: 28px;
+  color: white;
+  margin: 20px;
+  margin-left: 10%;
+}
+.h3-light {
+  font-size: 28px;
+  margin: 20px;
+  margin-left: 10%;
+}
+@media (max-width: 677px) {
+  .formContainer .ContactForm {
+    display: flex;
+    height: 300px;
+    flex-direction: column;
+    transition: all 400ms ease;
+    border-radius: 10px;
+    margin-bottom: 100px;
+    margin-left: 4px;
+    width: 98%;
+  }
+}

@@ -27,28 +27,33 @@
   width: 300px;
 }
 .dropdownCategories {
-  max-width: 200px;
+  margin-left: 15px;
+  max-width: 80px;
   text-align: center;
-  
 }
 .SearchBtn {
-  margin-top: 5px;
-  margin-right: 10px;
+  margin: auto;
+  margin-right: 5px;
 }
 .BtnLight {
   color: rgb(0, 0, 0);
   background-color: white;
   border-radius: 10px;
+  margin: auto;
+  height: 70%;
   width: 20%;
   text-align: center;
 }
 .BtnDark {
   color: white;
   background-color: rgb(0, 0, 0);
+  height: 70%;
+  margin: auto;
   border-radius: 10px;
   width: 20%;
   text-align: center;
 }
+
 
 /* MEDIA */
 @media (max-width: 990px) {
@@ -64,5 +69,52 @@
     max-width: 200px;
     text-align: center;
     border: 1px rgba(128, 128, 128, 0.144) solid;
+  }
+  .BtnLight {
+    color: rgb(0, 0, 0);
+    background-color: white;
+    margin: 0;
+    margin-top: 5px;
+    border-radius: 10px;
+    height: 60%;
+    width: 15%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .BtnDark {
+    color: white;
+    background-color: black;
+    border-radius: 10px;
+    margin: 0;
+    margin-top: 5px;
+    height: 60%;
+    width: 15%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+@media (max-width: 668px) {
+  .BtnLight {
+    color: rgb(0, 0, 0);
+    background-color: white;
+    border-radius: 10px;
+    height: 60%;
+    width: 25%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .BtnDark {
+    color: white;
+    background-color: rgb(0, 0, 0);
+    border-radius: 10px;
+    height: 60%;
+    width: 30%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 }

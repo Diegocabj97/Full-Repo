@@ -89,9 +89,18 @@ const App = () => {
                 <Routes>
                   <Route path="/" element={<ProductsPage />} />
                   <Route path="/PayCart" element={<PayCartPage />} />
-                  <Route path="/Contact" element={<ContactPage />} />
-                  <Route path="/Register" element={<RegisterPage />} />
-                  <Route path="/Login" element={<LoginPage />} />
+                  <Route
+                    path="/Contact"
+                    element={<ContactPage setButtonState={ButtonState} />}
+                  />
+                  <Route
+                    path="/Register"
+                    element={<RegisterPage setButtonState={ButtonState} />}
+                  />
+                  <Route
+                    path="/Login"
+                    element={<LoginPage setButtonState={ButtonState} />}
+                  />
                   <Route path="/NewProd" element={<NewProduct />} />
                   <Route path="/ProdCreated" element={<ProdCreated />} />
                   <Route

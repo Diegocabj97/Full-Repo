@@ -14,9 +14,14 @@
   border-end-end-radius: 20px;
   width: 100%;
 }
+
+.hsDiv {
+  display: flex;
+  flex-direction: column;
+}
 .containerIndex-light p {
-  border: solid 2px rgb(0, 0, 0);
-  border-radius: 50px;
+  border: solid 2px rgba(0, 0, 0, 0.398);
+  border-radius: 7px;
   width: 100%;
   color: rgb(0, 0, 0);
 }
@@ -26,10 +31,6 @@
   align-items: center;
   height: 75%;
   width: 100%;
-}
-.containerIndex-light div b {
-  width: 100%;
-  font-size: 28px;
 }
 .containerIndex-light h3 {
   color: rgb(1, 120, 255);
@@ -50,18 +51,20 @@
 @media (max-width: 1104px) {
   .containerIndex-light span {
     color: rgb(1, 120, 255);
-    font-size: 14px;
+    font-size: 20px;
   }
   .containerIndex-light span i {
-    font-size: 14px;
+    font-size: 20px;
   }
   .containerIndex-light div p {
     width: 100%;
-    font-size: 14px;
   }
 }
 @media (max-width: 1022px) {
-  .containerIndex-light p {
+  .fontInd2 {
+    display: none;
+  }
+  .fontInd3 {
     display: none;
   }
   .ProductSpecs h1 {
@@ -98,13 +101,8 @@
   .containerIndex-light strong {
     display: none;
   }
-  .containerIndex-light div:nth-child(1) {
-    display: none;
-  }
-}
-@media (max-width: 665px) {
   .containerIndex-light span i {
-    font-size: 30px;
+    font-size: 40px;
   }
 }
 /*//////////////////DARK/////////////////*/
@@ -144,7 +142,6 @@
 .containerIndex-dark h3 i {
   color: rgb(241, 243, 245);
 }
-
 .containerIndex-dark span i {
   color: rgb(255, 255, 255);
   font-size: 28px;
@@ -152,6 +149,27 @@
 .containerIndex-dark span {
   color: rgb(243, 243, 243);
   font-size: 28px;
+}
+@media (max-width: 1104px) {
+  .containerIndex-dark span i {
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+  }
+  .containerIndex-dark span {
+    color: rgb(243, 243, 243);
+    font-size: 20px;
+  }
+}
+@media (max-width: 665px) {
+  .containerIndex-dark{
+    background-color: rgba(0, 0, 0, 0.314);
+  }
+  .containerIndex-dark strong {
+    display: none;
+  }
+  .containerIndex-dark span i {
+    font-size: 40px;
+  }
 }
 a:link,
 a:visited,

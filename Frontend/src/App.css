@@ -29,7 +29,18 @@ h2 {
   justify-content: center;
   background-color: #ff0000;
 }
-
+@media (max-width: 1080px) {
+  .App-light {
+    margin: auto;
+    width: 95%;
+  }
+}
+@media (max-width: 670px) {
+  .App-light {
+    margin: auto;
+    width: 98%;
+  }
+}
 /* //////////////////LIGHT//////////////   */
 
 .App-light .navbar button {
@@ -44,7 +55,7 @@ h2 {
   margin: auto;
   width: 70%;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-  
+
   border-radius: 25px;
 }
 .App-dark .navbar .btn-danger {
@@ -55,6 +66,18 @@ h2 {
   background-color: rgb(32, 32, 32);
   color: black;
 }
-.App-dark .navbar .NavItem:hover{
+.App-dark .navbar .NavItem:hover {
   color: black;
+}
+@media (max-width: 1080px) {
+  .App-dark {
+    margin: auto;
+    width: 95%;
+  }
+}
+@media (max-width: 670px) {
+  .App-dark {
+    margin: auto;
+    width: 98%;
+  }
 }

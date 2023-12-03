@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../firebase/firebaseConfig";
+import "./Contact.css";
 const initialState = {
   name: "",
   lastname: "",
   email: "",
 };
 
-const ContactPage = () => {
+const ContactPage = ({ setButtonState }) => {
   const [Usuarios, setValues] = useState(initialState);
   const handleOnChange = (e) => {
     const { value, name } = e.target;
@@ -16,7 +17,9 @@ const ContactPage = () => {
   };
   const onSubmit = async (e) => {
     e.preventDefault();
-    const docRef = await addDoc(collection(db, "Usuarios Registrados"), { Usuarios, });
+    const docRef = await addDoc(collection(db, "Usuarios Registrados"), {
+      Usuarios,
+    });
 
     console.log("Document written with ID: ", docRef.id);
     setValues(initialState);
@@ -26,9 +29,11 @@ const ContactPage = () => {
 
   return (
     <div>
-      <h1>Registrate para mas noticias!</h1>
-      <div>
-        <Form className="d-flex" onSubmit={onSubmit}>
+      <h1 className={setButtonState ? "h1-dark" : "h1-light"}>
+        Registrate para mas noticias!
+      </h1>
+      <div className="formContainer">
+        <Form className="ContactForm" onSubmit={onSubmit}>
           <Form.Control
             type="search"
             placeholder="Escriba su nombre"
@@ -56,7 +61,7 @@ const ContactPage = () => {
             className="me-2"
             aria-label="Search"
           />
-          <Button type="submit" variant="danger">
+          <Button className="sendBtn" type="submit" variant="danger">
             Enviar
           </Button>
         </Form>

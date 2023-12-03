@@ -1,7 +1,7 @@
 import { Form, Button } from "react-bootstrap";
 import { React, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-
+import "../Contact/Contact.css";
 const initialState = {
   first_name: "",
   last_name: "",
@@ -9,7 +9,7 @@ const initialState = {
   password: "",
   age: "",
 };
-const RegisterPage = () => {
+const RegisterPage = ({ setButtonState }) => {
   const formRef = useRef(null);
   const navigate = useNavigate();
   const [RegisteredUsers, setValues] = useState(initialState);
@@ -41,9 +41,9 @@ const RegisterPage = () => {
 
   return (
     <div>
-      <h3>Registrate!!</h3>
-      <div>
-        <Form className="d-flex" onSubmit={onSubmit} ref={formRef}>
+      <h3 className={setButtonState ? "h3-dark" : "h3-light"}>Registrate!!</h3>
+      <div className="formContainer">
+        <Form className="ContactForm d-flex" onSubmit={onSubmit} ref={formRef}>
           <Form.Control
             type="first_name"
             placeholder="Ingrese su nombre"
@@ -89,7 +89,7 @@ const RegisterPage = () => {
             className="me-2"
             aria-label="Search"
           />
-          <Button type="submit" variant="danger">
+          <Button className="sendBtn" type="submit" variant="danger">
             Enviar
           </Button>
         </Form>

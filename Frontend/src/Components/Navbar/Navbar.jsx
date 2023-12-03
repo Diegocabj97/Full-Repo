@@ -98,8 +98,9 @@ const NavBarImport = ({
             <NavDropdown
               className="dropdown m-3"
               title="Contacto"
-              align="end"
-              id="collasible-nav-dropdown "
+              align="start"
+              id="collasible-nav-dropdown"
+              bg="dark"
             >
               <LinkContainer to="/Contact">
                 <Nav.Link className="NavItem">Contactanos</Nav.Link>

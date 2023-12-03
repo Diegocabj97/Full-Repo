@@ -28,7 +28,7 @@ const Category = () => {
     return item.categoria === categoryid;
   });
   return (
-    <div className="CategoryItems">
+    <div className="Cards-List">
       
       {filteredProducts.map((products) => {
         return (

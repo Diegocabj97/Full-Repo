@@ -13,8 +13,22 @@
     grid-template-columns: 1fr 1fr 1fr;
   }
 }
+
 @media (max-width: 1230px) {
   .Cards-List .card-text {
     display: none;
+  }
+}
+@media (max-width: 678px) {
+  .Cards-List {
+    margin-left: 0px;
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .Cards-List .card-text {
+    display: contents;
+  }
+  .Cards-List .card-title {
+    margin-bottom: 10%;
   }
 }

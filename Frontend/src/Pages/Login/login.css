@@ -1,9 +1,16 @@
-h3{
-    font-size: 20px;}
-.loginForm{
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    margin: 20px;
+h3 {
+  font-size: 20px;
+}
+.loginForm {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
 }
 
+.loginDark {
+  color: white;
+}
+.loginLight {
+  color: black;
+}

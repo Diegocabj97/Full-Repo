@@ -3,6 +3,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { Link } from "react-router-dom";
 import SearchPage from "../../Pages/SearchPage/SearchPage";
+import "./Navbar.css";
 const SearchForm = ({ onSearch }) => {
   const [value, setValue] = useState("");
 
