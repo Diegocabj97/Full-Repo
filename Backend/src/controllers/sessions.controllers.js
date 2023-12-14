@@ -14,11 +14,12 @@ export const login = async (req, res) => {
           email: req.user.email
           res.status(200).send({mensaje: "Usuario logueado"})
       }*/
-
+    const userCart = req.user.cart;
     const token = generateToken(req.user);
-
-    res.status(200).send({ token });
+    res.status(200).json({ token, cart: userCart });
+    console.log(userCart);
   } catch (error) {
+    console.error("Error al iniciar sesión:", error);
     res.status(500).send({ mensaje: `Error al iniciar sesion ${error}` });
   }
 };

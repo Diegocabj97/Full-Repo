@@ -6,10 +6,7 @@ import { CartContext } from "../../../Context/CartContext";
 
 const CartWidget = ({ onClick, setButtonState }) => {
   const { cart } = useContext(CartContext);
-  const counter = cart.reduce(
-    (total, product) => total + product.cantidad,
-    0
-  );
+  const counter = cart.reduce((total, product) => total + product.quantity, 0);
   return (
     <Container className="container-icon">
       <div className="container-cart-icon" onClick={onClick}>

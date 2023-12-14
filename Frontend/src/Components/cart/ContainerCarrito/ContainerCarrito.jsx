@@ -1,13 +1,15 @@
-import { Container } from "react-bootstrap";
+import { Accordion, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./ContainerCarrito.css";
 import { useContext } from "react";
 import { CartContext } from "../../../Context/CartContext";
 import CartElements from "../CartElements/cartElements";
 import CloseCartBtn from "./CloseCartBtn";
+import { ProductsContext } from "../../../Context/ProductsContext";
 const ContainerCarrito = () => {
   const { cart, containerClass } = useContext(CartContext);
-  const total = cart.reduce((acc, el) => acc + el.precio * el.cantidad, 0);
+  const { productId, setProducts } = useContext(ProductsContext);
+  const total = cart.reduce((acc, el) => acc + acc.price * el.quantity, 0);
   const { toggleContainerClass } = useContext(CartContext);
   return cart.length > 0 ? (
     <Container className={containerClass}>

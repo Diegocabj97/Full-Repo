@@ -1,31 +1,36 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { ProductsContext } from "../../Context/ProductsContext";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import "./DetailPage.css";
 import { useParams } from "react-router-dom";
-import { collection, query, where, getDocs } from "firebase/firestore";
-import { db } from "../../firebase/firebaseConfig";
 import Cards from "../../Components/card/card";
-import Specs from "./Specs";
 
 const DetailPage = ({ setButtonState }) => {
   const [products, setProducts] = useState([]);
+
   useEffect(() => {
     const getProducts = async () => {
-      const q = query(collection(db, "products"));
-      where("id", "==", { id });
-      const docs = [];
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        docs.push({ ...doc.data(), id: doc.id });
-      });
-      setProducts(docs);
+      try {
+        const response = await fetch("http://localhost:8080/api/products");
+        const data = await response.json();
+
+        if (data.docs) {
+          // Accede al array de productos y actualiza el estado
+          setProducts(data.docs);
+        } else {
+          console.log({ error: "Productos no encontrados" });
+        }
+      } catch (error) {
+        console.error("Error al realizar la solicitud:", error);
+      }
     };
+
     getProducts();
   }, []);
   const { id } = useParams();
   let filteredProducts = products.filter((item) => {
-    return item.id === id;
+    return item._id === id;
   });
 
   return (
@@ -37,7 +42,7 @@ const DetailPage = ({ setButtonState }) => {
       >
         {filteredProducts.map((product) => {
           return (
-            <div className="ProductDetail" key={product.id}>
+            <div className="ProductDetail" key={product._id}>
               <Cards product={product}></Cards>
               <div className="ProductSpecs">
                 <h1>Especificaciones del producto</h1>

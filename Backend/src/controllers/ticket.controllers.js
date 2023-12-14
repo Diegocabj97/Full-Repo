@@ -60,6 +60,9 @@ export const postCompra = async (req, res) => {
       });
 
       await ticket.save();
+      cart.products = [];
+      cart.total = 0;
+      await cart.save();
       res.status(200).send("Ticket creado, gracias por su compra");
     } catch (error) {
       res.status(500).send({

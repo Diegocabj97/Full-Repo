@@ -18,6 +18,9 @@
   .Cards-List .card-text {
     display: none;
   }
+  .Cards-List .cardPrice {
+    display: contents;
+  }
 }
 @media (max-width: 678px) {
   .Cards-List {

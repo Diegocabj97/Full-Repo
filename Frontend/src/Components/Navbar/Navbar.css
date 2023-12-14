@@ -53,9 +53,19 @@
   width: 20%;
   text-align: center;
 }
-
+.searchInput {
+  margin-bottom: 10px;
+  min-height: 50px;
+}
 
 /* MEDIA */
+
+@media (min-width: 990px) {
+  .searchForm {
+    height: 90%;
+    margin: auto;
+  }
+}
 @media (max-width: 990px) {
   .dropdown-menu.show {
     text-align: center;
@@ -77,7 +87,7 @@
     margin-top: 5px;
     border-radius: 10px;
     height: 60%;
-    width: 15%;
+    width: 12%;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -89,7 +99,7 @@
     margin: 0;
     margin-top: 5px;
     height: 60%;
-    width: 15%;
+    width: 12%;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -102,7 +112,7 @@
     background-color: white;
     border-radius: 10px;
     height: 60%;
-    width: 25%;
+    width: 13%;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -112,7 +122,29 @@
     background-color: rgb(0, 0, 0);
     border-radius: 10px;
     height: 60%;
-    width: 30%;
+    width: 17%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+}
+@media (max-width: 620px) {
+  .BtnLight {
+    color: rgb(0, 0, 0);
+    background-color: white;
+    border-radius: 10px;
+    height: 60%;
+    width: 13%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .BtnDark {
+    color: white;
+    background-color: rgb(0, 0, 0);
+    border-radius: 10px;
+    height: 60%;
+    width: 17%;
     display: flex;
     flex-direction: row;
     align-items: center;

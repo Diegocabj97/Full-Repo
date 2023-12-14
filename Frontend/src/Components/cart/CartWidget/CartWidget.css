@@ -2,7 +2,6 @@
   width: 40px;
   height: 40px;
   stroke: #ffffff;
-  
 }
 
 .icon-cart:hover {
@@ -17,7 +16,6 @@
   position: relative;
   width: 50px;
   height: 50px;
-  margin-right: 5px;
   display: flex;
   justify-content: end;
   align-items: end;
@@ -28,7 +26,7 @@
   position: absolute;
   top: 50%;
   right: 10px;
-font-weight: bold;
+  font-weight: bold;
   background-color: #f76d6d;
   color: #020202;
   width: 25px;
@@ -44,6 +42,21 @@ font-weight: bold;
   font-size: 12px;
   cursor: pointer;
 }
-#icon-light{
+#icon-light {
   color: black;
+}
+@media (min-width: 990px) {
+  .container-icon {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    margin: auto;
+    margin-bottom: 15px;
+    margin-right: 5px;
+    margin-left: 15px;
+    display: flex;
+    justify-content: end;
+    align-items: end;
+    color: black;
+  }
 }

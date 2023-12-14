@@ -2,7 +2,6 @@ import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { Link } from "react-router-dom";
-import SearchPage from "../../Pages/SearchPage/SearchPage";
 import "./Navbar.css";
 const SearchForm = ({ onSearch }) => {
   const [value, setValue] = useState("");
@@ -17,13 +16,13 @@ const SearchForm = ({ onSearch }) => {
     setValue("");
   };
   return (
-    <Form className="d-flex" onSubmit={handleOnSubmit}>
+    <Form className="d-flex searchForm" onSubmit={handleOnSubmit}>
       <Form.Control
         type="search"
         placeholder="Escriba el tipo de producto"
         value={value}
         onChange={handleOnChange}
-        className="me-2"
+        className="me-2 searchInput"
         aria-label="Search"
       />
       <Link className="SearchBtn" to={`/Search/${value}`}>

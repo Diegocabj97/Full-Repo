@@ -4,13 +4,10 @@ import "dotenv/config";
 //////////////////////
 //EXPREESS SOCKET y CORS
 import express from "express";
-import { Server } from "socket.io";
-import { engine } from "express-handlebars";
 import session from "express-session";
 import cors from "cors";
 //////////////////////
 //PATH
-import path from "path";
 import { __dirname } from "./path.js";
 //MONGO Y COOKIE PARSER
 import mongoose from "mongoose";
@@ -122,24 +119,24 @@ app.use(passport.session());
 app.use("/", router);
 app.use(addlogger);
 app.get("/info", (req, res) => {
-  req.logger.info("INFO");
+  req.logger.info('<span style="color:green">Texto de Info</span><br/>');
   req.res.send("Hola!");
 });
 app.get("/error", (req, res) => {
-  req.logger.error("ERROR");
+  req.logger.error('<span style="color:magenta">Texto de error</span><br/>');
   req.res.send("Hola!");
 });
 app.get("/debug", (req, res) => {
-  req.logger.debug("DEBUG");
+  req.logger.debug('<span style="color:yellow">Texto de debug</span><br/>');
   req.res.send("Hola!");
 });
 app.get("/fatal", (req, res) => {
-  req.logger.fatal("FATAL");
+  req.logger.fatal('<span style="color:red">Texto de fatal</span><br/>');
   req.res.send("Hola!");
 });
 
 app.get("/warning", (req, res) => {
-  req.logger.warning("WARNING");
+  req.logger.warning('<span style="color:blue">Texto de warning</span><br/>');
   req.res.send("Hola!");
 });
 //Server

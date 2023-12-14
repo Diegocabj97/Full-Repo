@@ -6,7 +6,7 @@ export const getProducts = async (req, res) => {
   const { limit, page, filter, sort } = req.query;
 
   const pag = page ? page : 1;
-  const lim = limit ? limit : 10;
+  const lim = limit ? limit : 30;
   const ord = sort == "asc" ? 1 : -1;
   try {
     const prods = await productModel.paginate(
@@ -35,7 +35,8 @@ export const getProduct = async (req, res) => {
   }
 };
 export const postProduct = async (req, res) => {
-  const { title, description, code, price, stock, category, quantity } = req.body;
+  const { title, description, code, price, stock, category, quantity } =
+    req.body;
 
   try {
     const prod = await productModel.create({
@@ -45,7 +46,7 @@ export const postProduct = async (req, res) => {
       price,
       stock,
       category,
-      quantity
+      quantity,
     });
     if (prod) {
       return res.status(201).send(prod);

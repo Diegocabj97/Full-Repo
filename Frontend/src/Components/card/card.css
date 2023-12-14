@@ -25,9 +25,7 @@
   min-width: 150px;
 }
 .cardPrice {
-  font-size: 20px;
-  color: rgb(0, 0, 0);
-  background-color: rgba(128, 128, 128, 0.377);
+
   font-weight: bold;
 }
 @media (max-width: 768px) {

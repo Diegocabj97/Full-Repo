@@ -41,14 +41,13 @@ export const postCart = async (req, res) => {
           (acc, item) => acc + item.quantity * item.id_prod.price,
           0
         );
-
         // Actualizar el total en el carrito
         cart.default = [{ products: cart.products, total }];
         await cart.save();
 
         return res.status(200).send({
           respuesta: "Ok",
-          mensaje: "Producto actualizado en el carrito",
+          mensaje: `Producto actualizado en el carrito.`,
         });
       } else {
         return res.status(404).send({

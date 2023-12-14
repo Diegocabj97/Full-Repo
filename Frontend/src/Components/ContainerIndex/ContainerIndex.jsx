@@ -12,7 +12,6 @@ const ContainerIndex = ({ setButtonState }) => {
           <span>
             <i className="fa-solid fa-envelope"></i> <strong>ESCRIBINOS</strong>
           </span>
-          <p className="fontInd2">diegojadrian97@gmail.com.ar</p>
         </a>
       </div>
       <div className="containerItem" style={{ width: "50%" }}>
@@ -21,7 +20,6 @@ const ContainerIndex = ({ setButtonState }) => {
             <i className="fa-brands fa-whatsapp"></i>
             <strong>WHATSAPP</strong>
           </span>
-          <p className="fontInd3">+54 9 11-5914-8462</p>{" "}
         </a>
       </div>
     </div>

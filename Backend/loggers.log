@@ -1,9 +1,0 @@
-[32minfo[39m: GET es /fatal - 30/11/2023
-[31mfatal[39m: FATAL
-[31mfatal[39m: FATAL
-[32minfo[39m: GET es /warning - 30/11/2023
-[34mwarning[39m: WARNING
-[34mwarning[39m: WARNING
-[32minfo[39m: GET es /error - 30/11/2023
-[35merror[39m: ERROR
-[35merror[39m: ERROR

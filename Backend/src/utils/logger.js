@@ -22,51 +22,35 @@ const logger = winston.createLogger({
   transports: [
     new winston.transports.Console({
       level: "debug",
-      format: winston.format.combine(
-        winston.format.colorize({ colors: customLevelOpt.colors }),
-        winston.format.simple()
-      ),
+      format: winston.format.combine(winston.format.simple()),
     }),
     new winston.transports.File({
-      filename: "./Errors.log",
+      filename: "./Errors.html",
       level: "fatal",
-      format: winston.format.combine(
-        winston.format.colorize({ colors: customLevelOpt.colors }),
-        winston.format.simple()
-      ),
+      format: winston.format.combine(winston.format.simple()),
     }),
     new winston.transports.File({
-      filename: "./errors.log",
+      filename: "./errors.html",
       level: "error",
-      format: winston.format.combine(
-        winston.format.colorize({ colors: customLevelOpt.colors }),
-        winston.format.simple()
-      ),
+      format: winston.format.combine(winston.format.simple()),
     }),
     new winston.transports.File({
-      filename: "./loggers.log",
+      filename: "./loggers.html",
       level: "warning",
-      format: winston.format.combine(
-        winston.format.colorize({ colors: customLevelOpt.colors }),
-        winston.format.simple()
-      ),
+      format: winston.format.combine(winston.format.simple()),
     }),
 
     new winston.transports.File({
-      filename: "./loggers.log",
+      filename: "./loggers.html",
       level: "info",
-      format: winston.format.combine(
-        winston.format.colorize({ colors: customLevelOpt.colors.info }),
-        winston.format.simple()
-      ),
+      format: winston.format.combine(winston.format.simple()),
     }),
   ],
 });
 
-export const addlogger = (req, res, next) => {
+export const addlogger = (req, res) => {
   (req.logger = logger),
-    req.logger.info(
+    req.logger.debug(
       `${req.method} es ${req.url} - ${new Date().toLocaleDateString()}`
     );
-  next();
 };

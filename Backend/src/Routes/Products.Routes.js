@@ -11,23 +11,19 @@ import { authorization, passportError } from "../utils/messagesError.js";
 const prodsRouter = Router();
 
 prodsRouter.get("/", getProducts);
-
 prodsRouter.get("/:id", getProduct);
-
 prodsRouter.post(
   "/",
   passportError("jwt"),
   authorization("Admin"),
   postProduct
 );
-
 prodsRouter.put(
   "/:pid",
   passportError("jwt"),
   authorization("Admin"),
   putProduct
 );
-
 prodsRouter.delete(
   "/:pid",
   passportError("jwt"),

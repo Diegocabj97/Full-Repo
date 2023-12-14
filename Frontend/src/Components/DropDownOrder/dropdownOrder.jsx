@@ -11,9 +11,8 @@ const BotonOrdenar = ({ ordenarCards }) => {
     ordenarCards(ascendente);
   };
   return (
-    <div style={{ display:"flex", justifyContent:"end", margin:"10px" }}>
+    <div style={{ display: "flex", justifyContent: "end", margin: "10px" }}>
       <DropdownButton
-        
         align={{ lg: "end" }}
         title="Ordenar"
         id="dropdown-menu-align-responsive-1"
@@ -35,9 +34,9 @@ const DropdownOrder = () => {
   const ordenarCards = (ascendente) => {
     const sortedProducts = [...products].sort((a, b) => {
       if (ascendente) {
-        return a.precio - b.precio;
+        return a.price - b.price;
       } else {
-        return b.precio - a.precio;
+        return b.price - a.price;
       }
     });
 

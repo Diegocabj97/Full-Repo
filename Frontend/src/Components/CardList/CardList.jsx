@@ -12,9 +12,9 @@ const CardList = () => {
   const ordenarCards = (ascendente) => {
     const sortedCards = [...cards].sort((a, b) => {
       if (ascendente) {
-        return a.precio - b.precio;
+        return a.price - b.price;
       } else {
-        return b.precio - a.precio;
+        return b.price - a.price;
       }
     });
     setCards(sortedCards);
@@ -25,12 +25,9 @@ const CardList = () => {
       <Container className="Cards-List">
         {products.map((product) => {
           return (
-            <div key={product.id}>
-              <Link to={`/detail/${product.id}`}>
-                <Cards
-                  product={product}
-                  
-                />
+            <div key={product._id}>
+              <Link to={`/detail/${product._id}`}>
+                <Cards product={product} />
               </Link>
             </div>
           );

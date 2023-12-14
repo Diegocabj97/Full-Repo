@@ -33,7 +33,9 @@ const NavBarImport = ({
       credentials: "include",
     });
     if (response.status == 200) {
-      console.log("Enviaste señal de fetch");
+      localStorage.removeItem("cart");
+      localStorage.removeItem("cartid");
+      localStorage.removeItem("jwtToken");
       console.log("Has cerrado sesion");
       navigate("/login");
     } else {
@@ -102,8 +104,8 @@ const NavBarImport = ({
               id="collasible-nav-dropdown"
               bg="dark"
             >
-              <LinkContainer to="/Contact">
-                <Nav.Link className="NavItem">Contactanos</Nav.Link>
+              <LinkContainer to="/Register">
+                <Nav.Link className="NavItem">Registrarse</Nav.Link>
               </LinkContainer>
               {isAuthenticated ? (
                 <Nav.Link
@@ -125,10 +127,6 @@ const NavBarImport = ({
                   </Container>
                 </NavDropdown>
               )}
-              <LinkContainer to="/Register">
-                <Nav.Link className="NavItem">Registrarse</Nav.Link>
-              </LinkContainer>
-              <Nav.Link className="NavItem">Soporte Técnico</Nav.Link>
             </NavDropdown>
             <SearchForm value={value} onSearch={onSearch} />
 

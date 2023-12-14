@@ -20,7 +20,6 @@ import ErrorPage from "./Pages/ErrorPage";
 import Category from "./Pages/Category/Category";
 import SearchPage from "./Pages/SearchPage/SearchPage";
 import PayCartPage from "./Pages/PayCartPage/PayCartPage";
-import ContactPage from "./Pages/Contact/Contact.jsx";
 import RegisterPage from "./Pages/Register/register.jsx";
 import LoginPage from "./Pages/Login/login.jsx";
 import NewProduct from "./Pages/NewProduct/newProduct.jsx";
@@ -67,8 +66,8 @@ const App = () => {
   };
   return (
     <div>
-      <CartProvider>
-        <ProductsProvider>
+      <ProductsProvider>
+        <CartProvider>
           <AuthProvider>
             <Router>
               <div className={ButtonState ? "App-dark" : "App-light"}>
@@ -89,10 +88,7 @@ const App = () => {
                 <Routes>
                   <Route path="/" element={<ProductsPage />} />
                   <Route path="/PayCart" element={<PayCartPage />} />
-                  <Route
-                    path="/Contact"
-                    element={<ContactPage setButtonState={ButtonState} />}
-                  />
+
                   <Route
                     path="/Register"
                     element={<RegisterPage setButtonState={ButtonState} />}
@@ -122,8 +118,8 @@ const App = () => {
               </div>
             </Router>
           </AuthProvider>
-        </ProductsProvider>
-      </CartProvider>
+        </CartProvider>
+      </ProductsProvider>
     </div>
   );
 };

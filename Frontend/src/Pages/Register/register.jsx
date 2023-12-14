@@ -19,23 +19,40 @@ const RegisterPage = ({ setButtonState }) => {
   };
   const onSubmit = async (e) => {
     e.preventDefault();
-    setValues(initialState);
-    console.log(RegisteredUsers);
-    const response = await fetch(
-      "http://localhost:8080/api/sessions/register",
-      {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(RegisteredUsers),
-      }
-    );
-    if (response.status == 200) {
-      navigate("/login");
-      console.log("Usuario registrado");
+    const ageNumber = parseInt(RegisteredUsers.age, 10);
+    if (isNaN(ageNumber) || ageNumber < 15 || ageNumber > 99) {
+      alert("La edad debe ser un número entre 15 y 99");
+      return null, false;
+    }
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d).+$/;
+    if (
+      RegisteredUsers.password.length < 5 ||
+      RegisteredUsers.password.length > 15 ||
+      !passwordRegex.test(RegisteredUsers.password)
+    ) {
+      alert(
+        "La contraseña debe tener entre 5 y 10 caracteres, un numero y una mayúscula"
+      );
+      return null, false;
     } else {
-      console.log(response);
+      console.log(RegisteredUsers);
+      const response = await fetch(
+        "http://localhost:8080/api/sessions/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(RegisteredUsers),
+        }
+      );
+      if (response.status == 200) {
+        setValues(initialState);
+        navigate("/login");
+        alert("Usuario registrado");
+      } else if (response.status === 401) {
+        alert("Usuario ya existente.");
+      }
     }
   };
 

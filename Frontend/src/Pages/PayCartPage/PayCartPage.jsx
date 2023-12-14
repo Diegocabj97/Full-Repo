@@ -10,13 +10,13 @@ import ThxMsg from "./ThxMsg";
 const PayCartPage = () => {
   const { cart, setCart } = useContext(CartContext);
   const productosComprados = cart.map((product) => ({
-    nombre: product.nombre,
-    precio: product.precio,
-    cantidad: product.cantidad,
+    nombre: product.title,
+    precio: product.price,
+    cantidad: product.quantity,
   }));
   const initialState = {
     name: "",
-    lastname: "",
+    last_name: "",
     Email: "",
     EmailConfirm: "",
     Productos: productosComprados,
@@ -26,6 +26,8 @@ const PayCartPage = () => {
   const [emailMatch, setEmailMatch] = useState(true);
   const [submitted, setSubmitted] = useState(false);
   const [highlight, setHighlight] = useState(false);
+  const [formComplete, setFormComplete] = useState(false);
+
   useEffect(() => {
     if (highlight) {
       setTimeout(() => {
@@ -38,30 +40,44 @@ const PayCartPage = () => {
     const { value, name } = e.target;
     setValues({ ...values, [name]: value });
     setEmailMatch(null);
+
+    // Verificar si todos los campos obligatorios están llenos
+    const isFormComplete =
+      values.name !== "" &&
+      values.last_name !== "" &&
+      values.Telefono !== "" &&
+      values.Email !== "" &&
+      values.EmailConfirm !== "";
+
+    setFormComplete(isFormComplete);
   };
+
   const FinalizarPago = async (e) => {
     e.preventDefault();
     setHighlight(false);
     setSubmitted(true);
     const match = values.Email === values.EmailConfirm;
     setEmailMatch(match);
+
     if (match) {
       try {
-        const response = await fetch(
-          "http://localhost:8080/api/cart/:cartId/purchase",
-          {
-            method: "GET",
-            headers: {
-              "Content-type": "application/json",
-            },
-            body: JSON.stringify(formData),
-          }
-        );
+        // Hacer la llamada a la API solo si el formulario está completo
+        if (formComplete) {
+          const response = await fetch(
+            "http://localhost:8080/api/cart/:cid/purchase",
+            {
+              method: "get",
+              headers: {
+                "Content-type": "application/json",
+              },
+            }
+          );
+        }
       } catch (error) {
-        error: "Error al redireccionar al ticket";
+        console.error("Error al redireccionar al ticket", error);
       }
     } else {
-      console.log("email incorrecta");
+      console.log("email incorrecto");
     }
 
     const docRef = await addDoc(collection(db, "Compras Recibidas"), {
@@ -72,16 +88,18 @@ const PayCartPage = () => {
     setValues(initialState);
     setCart([]);
   };
-  const total = cart.reduce((acc, el) => acc + el.precio * el.cantidad, 0);
+
+  const total = cart.reduce((acc, el) => acc + el.price * el.quantity, 0);
+
   return total > 0 ? (
     <div className="payCart">
       <h1>Termina tu compra!</h1>
       {cart.map((product) => (
-        <div className="BuyItem" key={product.id}>
-          <img src={product.imagen} alt="" />
-          <h3>{product.nombre}</h3>
-          <p>Precio: ${product.precio}</p>
-          <p>Cantidad: {product.cantidad}</p>
+        <div className="BuyItem" key={product._id}>
+          <img src={product.thumbnail} alt="" />
+          <h3>{product.title}</h3>
+          <p>Precio: ${product.price}</p>
+          <p>Cantidad: {product.quantity}</p>
         </div>
       ))}
       <h3>El total de tu compra es de $:{total}</h3>
@@ -90,12 +108,11 @@ const PayCartPage = () => {
         style={{ marginBottom: "50px" }}
         className={`${highlight ? "highlight" : ""}`}
       >
-        {submitted &&
-          !emailMatch && ( // Cambio en la condición de renderización del mensaje de error
-            <p style={{ color: "red", marginBottom: "50px" }}>
-              Los correos electrónicos no coinciden.
-            </p>
-          )}
+        {submitted && !emailMatch && (
+          <p style={{ color: "red", marginBottom: "50px" }}>
+            Los correos electrónicos no coinciden.
+          </p>
+        )}
         <Form className={"BuyForm d-flex "} onSubmit={FinalizarPago}>
           <Form.Control
             type="input"
@@ -109,8 +126,8 @@ const PayCartPage = () => {
           <Form.Control
             type="input"
             placeholder="Apellido"
-            name="lastname"
-            value={values.lastname}
+            name="last_name"
+            value={values.last_name}
             onChange={handleOnChange}
             className="me-2"
             aria-label="Search"
@@ -119,7 +136,7 @@ const PayCartPage = () => {
             type="input"
             placeholder="Telefono"
             name="Telefono"
-            value={values.phone}
+            value={values.Telefono}
             onChange={handleOnChange}
             className="me-2"
             aria-label="Search"
@@ -143,7 +160,18 @@ const PayCartPage = () => {
             aria-label="Search"
           />
 
-          <Button type="submit" onClick={FinalizarPago} variant="danger">
+          <Button
+            type="submit"
+            onClick={(e) => {
+              e.preventDefault();
+              if (formComplete) {
+                FinalizarPago(e);
+              } else {
+                setHighlight(true);
+              }
+            }}
+            variant="danger"
+          >
             Finalizar Compra
           </Button>
         </Form>

@@ -1,49 +1,33 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import "./card.css";
-import { Link } from "react-router-dom";
-import { CartContext } from "../../Context/CartContext";
-import { toast, ToastContainer } from "react-toastify";
+import { CartContext } from "../../Context/CartContext.jsx";
+import { ProductsContext } from "../../Context/ProductsContext.jsx";
 
-function Cards({ product, added }) {
-  const { cart, setCart } = useContext(CartContext);
-  const onAddProduct = (product) => {
-    const updatedCart = [...cart];
-    const existingProductIndex = updatedCart.findIndex(
-      (p) => p.id === product.id
-    );
-
-    if (existingProductIndex !== -1) {
-      updatedCart[existingProductIndex].cantidad += 1;
-    } else {
-      updatedCart.push({ ...product, cantidad: 1 });
-      setCart(updatedCart);
-    }
-    toast.success("Producto agregado al carrito", {
-      position: "top-right",
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: true,
-      progress: undefined,
-    });
-    setCart(updatedCart);
-  };
+function Cards({ added }) {
+  const { products, setProducts, productId } = useContext(ProductsContext);
+  const { addToCart, updateCartOnServer } = useContext(CartContext);
+  const { setCurrentProductId } = useContext(ProductsContext);
+  useEffect(() => {
+    const product = products.map((product) => product._id);
+  }, [products]);
   const BuyButtonClick = (event) => {
     event.preventDefault();
-    onAddProduct(product);
+    setCurrentProductId(productId);
+    addToCart(productId, products); // Solo necesitas dos argumentos aquí
+    updateCartOnServer(productId, products); // Solo necesitas un argumento aquí
   };
 
   return (
     <div>
       <Card>
-        <Card.Img className="cardImg" variant="top" src={product.imagen} />
+        <Card.Img className="cardImg" variant="top" src={products.thumbnail} />
         <Card.Body>
-          <Card.Title>{product.nombre}</Card.Title>
-          <Card.Text>{product.descripcion}</Card.Text>
-          <Card.Text className="cardPrice">$ {product.precio}</Card.Text>
+          <Card.Title>{products.title}</Card.Title>
+          <Card.Text>{products.description}</Card.Text>
+          <Card.Title className="cardPrice">$ {products.price}</Card.Title>
+          <Card.Body>${products._id}</Card.Body>
           <Button
             onClick={BuyButtonClick}
             added={added}

@@ -54,9 +54,18 @@ const initializePassport = () => {
 
           if (user) {
             //Caso de error: usuario existe
+
             return done(null, false);
           }
-
+          if (password.length < 5 || password.length > 10) {
+            console.log("La contraseña debe tener entre 5 y 10 caracteres");
+            return done(null, false);
+          }
+          const ageNumber = parseInt(age, 10);
+          if (isNaN(ageNumber) || ageNumber < 15 || ageNumber > 99) {
+            console.log("La edad debe ser un número entre 15 y 99");
+            return done(null, false);
+          }
           //Crear usuario
 
           const passwordHash = createHash(password);
