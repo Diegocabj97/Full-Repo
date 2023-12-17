@@ -36,10 +36,10 @@ userSchema.plugin(paginate);
 
 userSchema.pre("save", async function (next) {
   try {
-    const newCart = await CartModel.create({});
+    const newCart = await CartModel.create({ total: 0 });
     this.cart = newCart._id;
   } catch (error) {
-    next(error);
+    next(error); // Pasar el error al siguiente middleware o función
   }
 });
 //Parametro 1: Nombre de la coleccion - Parametro 2:Schema

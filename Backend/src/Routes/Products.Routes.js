@@ -14,8 +14,6 @@ prodsRouter.get("/", getProducts);
 prodsRouter.get("/:id", getProduct);
 prodsRouter.post(
   "/",
-  passportError("jwt"),
-  authorization("Admin"),
   postProduct
 );
 prodsRouter.put(

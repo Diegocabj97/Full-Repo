@@ -1,0 +1,136 @@
+paths:
+  /api/cart/{cid}/products/{pid}: 
+    post:
+      summary: Agregar producto al carrito
+      tags:
+        - Carts
+      parameters:
+        -name: cid, pid
+        in: path
+        required: true
+        schema:
+          type: Object
+          properties:
+            date:
+              type: date
+            products:
+              type: array
+              items:
+                type: ObjectId
+            
+      responses:
+        200:
+          description: Producto agregado correctamente
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/carts"
+        500:
+          description: Error interno del servidor
+      
+    
+
+  /api/cart/{cid}:
+    get:
+      summary: Obtener un carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          schema:
+            $type: string
+          description: ID del carrito autogenerado
+
+      responses:
+        200:
+          description: Carrito obtenido correctamente
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/carts"
+        500:
+          description: Error interno del servidor
+    
+    delete:
+      summary: Vaciar el carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          schema:
+            $type: string
+          description: Vaciado de carrito
+      responses:
+        200:
+          description: Carrito vaciado correctamente
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/carts"
+        500:
+          description: Error interno del servidor
+
+    put:
+      summary: actualizar un carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          schema:
+            $type: string
+          description: ID del carrito autogenerado
+        - name: body
+          in: body
+          required: true
+          schema:
+            $type: Object
+            properties:
+              date:
+                type: date
+              products:
+                type: array
+                items:
+                  type: ObjectId
+      responses:
+        200:
+          description: Carrito actualizado correctamente
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/carts"
+        500:
+          description: Error interno del servidor
+
+     
+components:
+  schemas:
+    carts:
+      type: object
+      properties:
+        _id:
+        type: ObjectId
+        description: ID autogenerado por MongoDB
+        date:
+          type: date
+          description: Fecha de creacion del carrito
+        products:
+          type: array
+          items:
+            type: ObjectId
+          description: Productos del carrito
+       
+      example:
+        _id: ObjectId('njks2ddasjkaw')
+        date: 1231312
+        products: ArrayOfObjectIds
+       

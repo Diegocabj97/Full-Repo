@@ -9,6 +9,8 @@ import cors from "cors";
 //////////////////////
 //PATH
 import { __dirname } from "./path.js";
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUiExpress from "swagger-ui-express";
 //MONGO Y COOKIE PARSER
 import mongoose from "mongoose";
 import MongoStore from "connect-mongo";
@@ -22,10 +24,11 @@ import initializePassport from "./config/passport.js";
 import nodemailer from "nodemailer";
 import { Logger } from "winston";
 import { addlogger } from "./utils/logger.js";
+
 //////////////////////
 
 // CORS OPTIONS
-const whiteList = ["http://localhost:5173"];
+const whiteList = ["http://localhost:5173, http://localhost:8080"];
 const corsOptions = {
   origin: function (origin, callback) {
     if (whiteList.indexOf(origin) != -1 || !origin) {
@@ -35,12 +38,32 @@ const corsOptions = {
     }
   },
   credentials: true,
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 };
 
+const swaggerOptions = {
+  definition: {
+    openapi: "3.1.0",
+    info: {
+      title: "Documentación del E-Commerce",
+      description: "Api Coder Backend",
+    },
+  },
+  apis: [`${__dirname}/docs/**/*.yaml`], //  ** indica una subcarpeta que no me interesa el nombre
+};
+const specs = swaggerJSDoc(swaggerOptions);
 ///////////////////////
 const app = express();
-const PORT = 8080;
 
+app.use("/apidocs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
+
+const PORT = 8080;
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "http://localhost:5173");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
+  next();
+});
 //MAILING
 
 let transporter = nodemailer.createTransport({

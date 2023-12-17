@@ -4,7 +4,7 @@ import { productModel } from "../models/products.models.js";
 export const getCart = async (req, res) => {
   const { cid } = req.params;
   try {
-    const cart = await CartModel.findById(cid).populate("products.id_prod");
+    const cart = await CartModel.findById(cid).populate("products._id");
     if (cart) {
       res.status(200).send(cart);
     } else {
@@ -16,33 +16,33 @@ export const getCart = async (req, res) => {
 };
 export const postCart = async (req, res) => {
   const { cid, pid } = req.params;
-  const { quantity } = req.body;
-
-  if (!quantity || isNaN(quantity) || quantity <= 0) {
-    return res.status(400).send("Cantidad inválida");
-  }
 
   try {
-    const cart = await CartModel.findById(cid);
+    const cart = await CartModel.findById(cid).populate("products");
+    cart.products.forEach((product) => {});
     if (cart) {
       const prod = await productModel.findById(pid);
+
       if (prod) {
         const indice = cart.products.findIndex(
-          (prod) => prod.id_prod._id.toString() === pid
+          (product) => product._id._id.toString() === pid
         );
         if (indice !== -1) {
-          cart.products[indice].quantity = quantity;
+          // Incrementar la cantidad en 1 cada vez que se agrega
+          const prodIndex = cart.products[indice];
+          prodIndex.quantity += 1;
         } else {
-          cart.products.push({ id_prod: pid, quantity: quantity });
+          // Agregar un nuevo producto al carrito
+          cart.products.push({ _id: prod, quantity: 1 });
         }
-
         // Recalcular el total
-        const total = cart.products.reduce(
-          (acc, item) => acc + item.quantity * item.id_prod.price,
-          0
-        );
+        const total = cart.products.reduce((acc, product) => {
+          const productTotal = product.quantity * product._id.price;
+          return acc + productTotal;
+        }, 0);
+
         // Actualizar el total en el carrito
-        cart.default = [{ products: cart.products, total }];
+        cart.total = total;
         await cart.save();
 
         return res.status(200).send({
@@ -64,7 +64,7 @@ export const postCart = async (req, res) => {
   } catch (error) {
     return res.status(500).send({
       respuesta: "Error al agregar un producto a este carrito",
-      mensaje: error,
+      mensaje: error.message,
     });
   }
 };
@@ -104,7 +104,7 @@ export const deleteCart = async (req, res) => {
       cart.products = [];
 
       const total = cart.products.reduce(
-        (acc, item) => acc + item.quantity * item.id_prod.price,
+        (acc, item) => acc + item.quantity * item.price,
         0
       );
 

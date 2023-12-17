@@ -37,5 +37,4 @@ const productSchema = new Schema({
   },
 });
 productSchema.plugin(paginate);
-//Parametro 1: Nombre de la coleccion - Parametro 2:Schema
 export const productModel = model("products", productSchema);

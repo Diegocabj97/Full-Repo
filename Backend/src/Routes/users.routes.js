@@ -9,9 +9,9 @@ import {
 
 const userRouter = Router();
 
-userRouter.get("/", passportError("jwt"), getAll);
-userRouter.get("/:uid", authorization("Admin"), passportError("jwt"), getById);
-userRouter.put("/:uid", authorization("Admin"), passportError("jwt"), putById);
+userRouter.get("/", getAll);
+userRouter.get("/:uid", getById);
+userRouter.put("/:uid", putById);
 userRouter.delete(
   "/:uid",
   authorization("Admin"),
