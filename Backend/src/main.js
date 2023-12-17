@@ -22,7 +22,6 @@ import initializePassport from "./config/passport.js";
 //////////////////////
 //MAILING y LOGGERS
 import nodemailer from "nodemailer";
-import { Logger } from "winston";
 import { addlogger } from "./utils/logger.js";
 
 //////////////////////
@@ -64,6 +63,12 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Headers", "Content-Type");
   next();
 });
+
+//Artillery
+app.get("/testArtillery", (req, res) => {
+  res.send("Hola desde artillery");
+});
+
 //MAILING
 
 let transporter = nodemailer.createTransport({
@@ -76,6 +81,24 @@ let transporter = nodemailer.createTransport({
     authMethod: "LOGIN",
   },
 });
+export const sendRecoveryMail = (email, recoveryLink) => {
+  const mailOptions = {
+    from: "diegojadrian97@gmail.com",
+    to: email,
+    subject: "Link para restablecer su contraseña",
+    html: `
+    <div>
+      <h1>
+      Haga click en este link para restablecer su contraseña: ${recoveryLink}
+      </h1>
+    </div>`,
+  };
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) console.log(error);
+    else console.log("Email enviado correctamente");
+  });
+};
+
 app.get("/mail", async (req, res) => {
   const resultado = await transporter.sendMail({
     from: "diegojadrian97@gmail.com",

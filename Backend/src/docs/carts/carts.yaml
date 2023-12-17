@@ -5,18 +5,19 @@ paths:
       tags:
         - Carts
       parameters:
-        -name: cid, pid
-        in: path
-        required: true
-        schema:
-          type: Object
-          properties:
-            date:
-              type: date
-            products:
-              type: array
-              items:
-                type: ObjectId
+        - name: cid
+          in: path
+        - name: pid
+          in: path
+          schema:
+            type: Object
+            properties:
+              date:
+                type: date
+              products:
+                type: array
+                items:
+                  type: ObjectId
             
       responses:
         200:
@@ -41,7 +42,7 @@ paths:
           in: path
           required: true
           schema:
-            $type: string
+            $type: ObjectId
           description: ID del carrito autogenerado
 
       responses:

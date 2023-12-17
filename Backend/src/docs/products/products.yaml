@@ -21,22 +21,22 @@ paths:
       tags:
         - Products
       parameters:
-        -name: body
-        in: body
-        required: true
-        schema:
-          type: Object
-          properties:
-            title:
-              type: string
-            price:
-              type: number
-            stock:
-              type: number
-            category:
-              type: string
-            descripcion:
-              type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: Object
+            properties:
+              title:
+                type: string
+              price:
+                type: number
+              stock:
+                type: number
+              category:
+                type: string
+              descripcion:
+                type: string
       responses:
         200:
           description: Producto creado correctamente
