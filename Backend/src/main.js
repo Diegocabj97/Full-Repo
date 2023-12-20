@@ -27,7 +27,7 @@ import { addlogger } from "./utils/logger.js";
 //////////////////////
 
 // CORS OPTIONS
-const whiteList = ["http://localhost:5173, http://localhost:8080"];
+const whiteList = ["http://localhost:5173", "http://localhost:3000"];
 const corsOptions = {
   origin: function (origin, callback) {
     if (whiteList.indexOf(origin) != -1 || !origin) {
@@ -37,7 +37,6 @@ const corsOptions = {
     }
   },
   credentials: true,
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 };
 
 const swaggerOptions = {
@@ -56,7 +55,7 @@ const app = express();
 
 app.use("/apidocs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
-const PORT = 8080;
+const PORT = 3000;
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "http://localhost:5173");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");

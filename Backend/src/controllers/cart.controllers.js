@@ -1,6 +1,15 @@
 import { CartModel } from "../models/cart.models.js";
 import { productModel } from "../models/products.models.js";
 
+export const getCarts = async (req, res) => {
+  const { limit } = req.query;
+  try {
+    const carts = await CartModel.find().limit(limit);
+    res.status(200).send({ respuesta: "ok", mensaje: carts });
+  } catch (error) {
+    res.status(400).send({ respuesta: "Error", mensaje: error });
+  }
+};
 export const getCart = async (req, res) => {
   const { cid } = req.params;
   try {
@@ -70,28 +79,42 @@ export const postCart = async (req, res) => {
 };
 
 export const putCart = async (req, res) => {
-  const { cid } = req.params;
-  const { products } = req.body;
-
   try {
+    const { cid, pid } = req.params;
+    const { quantity } = req.body;
     const cart = await CartModel.findById(cid);
-    if (cart) {
-      cart.products = products; // Asigna el nuevo arreglo de productos al carrito
-      await CartModel.findByIdAndUpdate(cid, cart);
-      return res.status(200).send({
-        respuesta: "Ok",
-        mensaje: "Carrito actualizado",
-      });
-    } else {
-      return res.status(404).send({
-        respuesta: "Error al actualizar el carrito",
-        mensaje: "Carrito no encontrado",
-      });
+
+    if (!cart) {
+      res
+        .status(404)
+        .send({ respuesta: "Carrito no encontrado", mensaje: "Not Found" });
     }
+
+    const product = await productModel.findById(pid);
+    if (!product) {
+      res
+        .status(404)
+        .send({ respuesta: "Producto no encontrado", mensaje: "Not Found" });
+    }
+
+    const indice = cart.products.findIndex(
+      (prod) => prod._id._id.toString() === pid
+    );
+    if (indice !== -1) {
+      cart.products[indice].quantity = quantity;
+    } else {
+      cart.products.push({ _id: pid, quantity: quantity });
+    }
+
+    await cart.save();
+    res
+      .status(200)
+      .send({ respuesta: "OK", mensaje: "Carrito actualizado", carrito: cart });
   } catch (error) {
-    return res.status(500).send({
-      respuesta: "Error al actualizar el carrito",
-      mensaje: error,
+    console.error(error);
+    res.status(500).send({
+      respuesta: "Error",
+      mensaje: "Ha ocurrido un error en el servidor",
     });
   }
 };

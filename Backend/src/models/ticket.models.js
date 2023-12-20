@@ -3,7 +3,7 @@ import { Schema, model } from "mongoose";
 const ticketSchema = new Schema({
   products: [
     {
-      id_prod: {
+      _id: {
         type: Schema.Types.ObjectId,
         ref: "products",
         required: true,

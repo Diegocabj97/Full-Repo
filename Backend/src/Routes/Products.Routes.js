@@ -12,21 +12,8 @@ const prodsRouter = Router();
 
 prodsRouter.get("/", getProducts);
 prodsRouter.get("/:id", getProduct);
-prodsRouter.post(
-  "/",
-  postProduct
-);
-prodsRouter.put(
-  "/:pid",
-  passportError("jwt"),
-  authorization("Admin"),
-  putProduct
-);
-prodsRouter.delete(
-  "/:pid",
-  passportError("jwt"),
-  authorization("Admin"),
-  deleteProduct
-);
+prodsRouter.post("/", postProduct);
+prodsRouter.put("/:pid", putProduct);
+prodsRouter.delete("/:pid", deleteProduct);
 
 export default prodsRouter;

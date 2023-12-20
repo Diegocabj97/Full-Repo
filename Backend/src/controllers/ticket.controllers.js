@@ -8,7 +8,7 @@ const generarCodeUnico = () => {
 export const postCompra = async (req, res) => {
   const cartId = req.params.cid;
   try {
-    const cart = await CartModel.findById(cartId).populate("products.id_prod");
+    const cart = await CartModel.findById(cartId).populate("products._id");
 
     console.log("Cart:", cart);
 
@@ -19,7 +19,7 @@ export const postCompra = async (req, res) => {
     let insufficientStock = false;
 
     for (const item of cart.products) {
-      const product = item.id_prod;
+      const product = item._id;
       const quantity = item.quantity;
 
       if (product.stock >= quantity) {
@@ -29,8 +29,7 @@ export const postCompra = async (req, res) => {
         insufficientStock = true;
         console.log(`un producto fue eliminado del carrito por falta de stock`);
         cart.products = cart.products.filter(
-          (cartItem) =>
-            cartItem.id_prod._id.toString() !== product._id.toString()
+          (cartItem) => cartItem._id.toString() !== product._id.toString()
         );
       }
     }
@@ -41,7 +40,7 @@ export const postCompra = async (req, res) => {
     }
 
     const total = cart.products.reduce(
-      (acc, item) => acc + item.quantity * item.id_prod.price,
+      (acc, item) => acc + item.quantity * item._id.price,
       0
     );
 
@@ -51,7 +50,7 @@ export const postCompra = async (req, res) => {
     try {
       const ticket = new ticketModel({
         products: cart.products.map((item) => ({
-          id_prod: item.id_prod,
+          _id: item._id,
           quantity: item.quantity,
         })),
         amount: total,

@@ -47,7 +47,7 @@ const initializePassport = () => {
       async (req, username, password, done) => {
         //Registro de usuario
 
-        const { first_name, last_name, email, age } = req.body;
+        const { first_name, last_name, email /*  age  */ } = req.body;
 
         try {
           const user = await userModel.findOne({ email: email });
@@ -57,7 +57,7 @@ const initializePassport = () => {
 
             return done(null, false);
           }
-          if (password.length < 5 || password.length > 10) {
+          /*  if (password.length < 5 || password.length > 10) {
             console.log("La contraseña debe tener entre 5 y 10 caracteres");
             return done(null, false);
           }
@@ -65,14 +65,14 @@ const initializePassport = () => {
           if (isNaN(ageNumber) || ageNumber < 15 || ageNumber > 99) {
             console.log("La edad debe ser un número entre 15 y 99");
             return done(null, false);
-          }
+          } */
           //Crear usuario
 
           const passwordHash = createHash(password);
           const userCreated = await userModel.create({
             first_name: first_name,
-            last_name: last_name,
-            age: age,
+            last_name: last_name /* 
+            age: age, */,
             email: email,
             password: passwordHash,
           });
@@ -145,7 +145,6 @@ passport.use(
             first_name: profile._json.name,
             last_name: " ",
             email: profile._json.email,
-            age: 18, //Default Age
             password: createHash(profile._json.email),
           });
           done(null, userCreated);

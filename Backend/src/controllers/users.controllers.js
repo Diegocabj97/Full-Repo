@@ -28,13 +28,13 @@ export const getById = async (req, res) => {
 };
 export const putById = async (req, res) => {
   const { uid } = req.params;
-  const { first_name, last_name, age, email, password } = req.body;
+  const { first_name, last_name, /* age, */ email, password } = req.body;
 
   try {
     const user = await userModel.findByIdAndUpdate(uid, {
       first_name,
-      last_name,
-      age,
+      last_name /* 
+      age, */,
       email,
       password,
     });
