@@ -12,7 +12,7 @@ const DetailPage = ({ setButtonState }) => {
   useEffect(() => {
     const getProducts = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/products");
+        const response = await fetch("http://localhost:3000/api/products");
         const data = await response.json();
 
         if (data.docs) {

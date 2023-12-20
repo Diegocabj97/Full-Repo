@@ -28,14 +28,15 @@ const NavBarImport = ({
   const handleOnSubmit = async (e) => {
     logout();
     e.preventDefault();
-    const response = await fetch("http://localhost:8080/api/sessions/logout", {
+    const response = await fetch("http://localhost:3000/api/sessions/logout", {
       method: "GET",
       credentials: "include",
     });
     if (response.status == 200) {
-      localStorage.removeItem("cart");
       localStorage.removeItem("cartid");
       localStorage.removeItem("jwtToken");
+      setCart([]);
+      localStorage.removeItem("cart");
       console.log("Has cerrado sesion");
       navigate("/login");
     } else {

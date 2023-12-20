@@ -1,81 +1,63 @@
 import React, { useContext } from "react";
+import CloseButton from "react-bootstrap/CloseButton";
+import Button from "react-bootstrap/Button";
 import { CartContext } from "../../../Context/CartContext";
 import "./cartElements.css";
 import { ProductsContext } from "../../../Context/ProductsContext";
-import CloseButton from "react-bootstrap/CloseButton";
-import Button from "react-bootstrap/Button";
+
 const CartElements = () => {
-  const { cart, setCart } = useContext(CartContext);
-  const { products, setProducts } = useContext(ProductsContext);
-  const { removeProductFromCart } = useContext(CartContext);
-  const { productId, setProductId } = useContext(ProductsContext);
-  const handleQuantityChange = (productId, value) => {
-    const updatedCart = cart.map((product) => {
-      console.log("El pid es " + productId);
-      if (product._id === productId) {
-        const newQuantity = product.quantity + value;
+  const { cart, setCart, removeProductFromCart } = useContext(CartContext);
+  const { productId } = useContext(ProductsContext);
+  console.log(cart);
+  const handleQuantityChange = async (value, product) => {
+    const updatedCart = cart.map((cartProduct) => {
+      if (cartProduct._id === product._id) {
+        const newQuantity = cartProduct.quantity + value;
+
+        // Validación para asegurarse de que la cantidad no sea negativa
         if (newQuantity <= 0) {
           return null;
         }
         return {
-          ...product,
+          ...cartProduct,
           quantity: newQuantity,
         };
       }
-      return product;
-    });
 
+      return cartProduct;
+    });
+    setCart(updatedCart);
     // Filtra los productos nulos después de actualizar el carrito
     const filteredCart = updatedCart.filter((product) => product !== null);
     setCart(filteredCart);
+
+    // Actualizar el carrito desde el servidor después de modificarlo localmente
+    // (El método updateCartElem y la lógica de servidor ya están en el CartContext)
   };
-  return (
-    <div>
-      {cart.map((product) => {
-        const productInfo = products.find((p) => p._id === product._id);
 
-        if (!productInfo) {
-          return null;
-        }
+  return cart.map((cartProduct) => (
+    <div key={cartProduct._id._id}>
+      <div className="cartItem">
+        <img
+          className="cartItemImg"
+          src={cartProduct.thumbnail}
+          alt="products-card"
+        />
+        <div className="cartItem">
+          <h3 className="cartItemName">{cartProduct._id.title}</h3>
+          <h4 className="cartItemPrice">${cartProduct._id.price}</h4>
+          <p className="cartItemQuantity">Cantidad: {cartProduct.quantity}</p>
+        </div>
 
-        const { title, price, thumbnail } = productInfo;
-
-        return (
-          <div className="cartItem" key={product._id}>
-            <img
-              className="cartItemImg"
-              src={productInfo.thumbnail}
-              alt="products-card"
-            />
-            <h3 className="cartItemName">{product.title}</h3>
-            <h4 className="cartItemPrice">${product.price}</h4>
-            <p className="cartItemQuantity">Cantidad:{product.quantity}</p>
-            <div className="BtnAgregar">
-              <Button
-                onClick={() => handleQuantityChange(product._id, -1)}
-                variant="outline-danger"
-              >
-                -
-              </Button>
-            </div>
-            <div className="BtnRestar">
-              <Button
-                onClick={() => handleQuantityChange(product._id, 1)}
-                variant="outline-success"
-              >
-                +
-              </Button>
-            </div>
-            <div>
-              <CloseButton
-                onClick={() => removeProductFromCart(productId)}
-                className="rmvBtn"
-              />
-            </div>
-          </div>
-        );
-      })}
+        <div>
+          <CloseButton
+            onClick={() => removeProductFromCart(productId)}
+            className="rmvBtn"
+          />
+        </div>
+      </div>
     </div>
-  );
+  ));
 };
+
 export default CartElements;

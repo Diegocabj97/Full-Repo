@@ -37,7 +37,7 @@ const RegisterPage = ({ setButtonState }) => {
     } else {
       console.log(RegisteredUsers);
       const response = await fetch(
-        "http://localhost:8080/api/sessions/register",
+        "http://localhost:3000/api/sessions/register",
         {
           method: "POST",
           headers: {

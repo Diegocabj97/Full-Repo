@@ -1,15 +1,17 @@
 import { Accordion, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./ContainerCarrito.css";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CartContext } from "../../../Context/CartContext";
 import CartElements from "../CartElements/cartElements";
 import CloseCartBtn from "./CloseCartBtn";
-import { ProductsContext } from "../../../Context/ProductsContext";
 const ContainerCarrito = () => {
   const { cart, containerClass } = useContext(CartContext);
-  const { productId, setProducts } = useContext(ProductsContext);
-  const total = cart.reduce((acc, el) => acc + acc.price * el.quantity, 0);
+  const [cartTotal, setCartTotal] = useState(0);
+  useEffect(() => {
+    const newTotal = cart.reduce((acc, el) => acc + el.price * el.quantity, 0);
+    setCartTotal(newTotal);
+  }, [cart]);
   const { toggleContainerClass } = useContext(CartContext);
   return cart.length > 0 ? (
     <Container className={containerClass}>
@@ -21,7 +23,7 @@ const ContainerCarrito = () => {
           </div>
           <CartElements />
 
-          <h4>Total: ${total}</h4>
+          <h4>Total: ${cartTotal}</h4>
           <Link to="/PayCart">
             <button
               onClick={toggleContainerClass}

@@ -1,39 +1,41 @@
-import React, { useContext } from "react";
+import React, { useEffect, useState } from "react";
 import Cards from "../card/card.jsx";
 import "./CardList.css";
 import { Link } from "react-router-dom";
 import { Container } from "react-bootstrap";
-import {
-  ProductsContext,
-  ProductsProvider,
-} from "../../Context/ProductsContext.jsx";
 
 const CardList = () => {
-  const ordenarCards = (ascendente) => {
-    const sortedCards = [...cards].sort((a, b) => {
-      if (ascendente) {
-        return a.price - b.price;
-      } else {
-        return b.price - a.price;
+  const [prods, setProds] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/api/products");
+        const data = await response.json();
+
+        if (data.docs) {
+          setProds(data.docs);
+        } else {
+          console.log({ error: "Productos no encontrados" });
+        }
+      } catch (error) {
+        console.error("Error al realizar la solicitud:", error);
       }
-    });
-    setCards(sortedCards);
-  };
-  const { products, setProducts } = useContext(ProductsContext);
+    };
+
+    fetchProducts();
+  }, []);
+
   return (
-    <ProductsProvider>
-      <Container className="Cards-List">
-        {products.map((product) => {
-          return (
-            <div key={product._id}>
-              <Link to={`/detail/${product._id}`}>
-                <Cards product={product} />
-              </Link>
-            </div>
-          );
-        })}
-      </Container>
-    </ProductsProvider>
+    <Container className="Cards-List">
+      {prods.map((prod) => (
+        <div key={prod._id}>
+          <Link to={`/detail/${prod._id}`}>
+            <Cards product={prod} />
+          </Link>
+        </div>
+      ))}
+    </Container>
   );
 };
 

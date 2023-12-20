@@ -31,29 +31,16 @@ import ProdCreated from "./Pages/NewProduct/ProdCreated";
 
 const App = () => {
   const [ButtonState, setButtonState] = useState(false);
-  const [allProducts, setAllProducts] = useState([]);
-  useEffect(() => {
-    const getProducts = async () => {
-      const q = query(collection(db, "products"));
-      const docs = [];
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        docs.push({ ...doc.data(), id: doc.id });
-      });
-      setAllProducts(docs);
-    };
-    getProducts();
-  }, []);
-
+  const [products, setProducts] = useState([]);
   const handleSearch = (searchText) => {
     if (searchText) {
-      const filteredProducts = allProducts.filter(
+      const filteredProducts = products.filter(
         (product) => product.nombre && product.nombre.includes(searchText)
       );
       console.log("Productos filtrados:", filteredProducts);
-      setAllProducts(filteredProducts);
+      setProducts(filteredProducts);
     } else {
-      setAllProducts([]);
+      setProducts([]);
     }
   };
 

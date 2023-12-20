@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
-import { ProductsContext } from "./ProductsContext";
+import { ProductsContext } from "./ProductsContext.jsx";
 
 const CartContext = createContext();
 
@@ -7,12 +7,25 @@ const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [cartId, setCartId] = useState();
   const { productId } = useContext(ProductsContext);
-  const updatedCart = [...cart];
+
+  useEffect(() => {
+    const storedCartId = localStorage.getItem("cartid");
+    if (storedCartId) {
+      setCartId(storedCartId);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchCart();
+  }, [cartId, setCart]); // <-- Asegúrate de incluir setCart en las dependencias
+
   const fetchCart = async () => {
     try {
-      if (cartId) {
+      if (!cartId) {
+        console.log("Error al obtener el carrito:");
+      } else {
         const response = await fetch(
-          `http://localhost:8080/api/cart/${cartId}`
+          `http://localhost:3000/api/cart/${cartId}`
         );
         if (!response.ok) {
           throw new Error("Error al obtener el carrito con FETCH");
@@ -21,120 +34,85 @@ const CartProvider = ({ children }) => {
         const data = await response.json();
         const cartData = data.products;
         setCart(cartData);
-        updateCartOnServer(cartData);
-        updatedCart(cartData);
       }
     } catch (error) {
       console.error("Error al obtener el carrito:", error);
     }
   };
 
-  useEffect(() => {
-    // Lógica para cargar el carrito al montar el componente
-    fetchCart();
-    updateCartOnServer(updatedCart);
-  }, [cartId]);
-  const addToCart = async (productId, product) => {
+  const addToCart = async (product) => {
     try {
-      // Asegúrate de que cartId y productId tengan valores antes de continuar
       if (!cartId) {
         console.error("El cartId no está definido");
         return;
       }
 
-      if (!productId) {
-        console.error("Producto no encontrado con el ID:", productId);
-        return;
-      }
-
       const response = await fetch(
-        `http://localhost:8080/api/cart/${cartId}/products/${productId}`,
+        `http://localhost:3000/api/cart/${cartId}/product/${product._id}`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
+          body: JSON.stringify(product),
         }
       );
 
-      if (!response.ok) {
-        console.log("Producto agregado en el servidor ");
+      if (response.ok) {
+        // Actualizar el carrito en el estado local
+        setCart((prevCart) => [...prevCart, { ...product, quantity: 1 }]);
+        // Actualizar el carrito en el servidor
+        fetchCart(cartId);
       }
-      const updatedCart = [...cart];
-      const existingProductIndex = updatedCart.findIndex(
-        (p) => p._id === productId
-      );
-
-      if (existingProductIndex !== -1) {
-        updatedCart[existingProductIndex].quantity += 1;
-      } else {
-        updatedCart.push({ ...product, quantity: 1 });
-      }
-      // Actualizar el carrito en el servidor
-      console.log("agregado al cart de MongoDB");
-      setCart(updatedCart);
-
-      // Actualizar el carrito en el servidor
-      updateCartOnServer(updatedCart);
-
-      // También puedes almacenar el carrito en el local storage si es necesario
     } catch (error) {
       console.error("Error al agregar el producto al carrito:", error);
-    }
-  };
-  const updateCartOnServer = async (products, productId) => {
-    try {
-      if (cartId) {
-        const response = await fetch(
-          `http://localhost:8080/api/cart/${cartId}/products/${productId}`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(products), // Agrega el cuerpo con los datos del producto
-          }
-        );
-
-        if (!response.ok) {
-          console.log("carrito actualizado en el servidor " + productId);
-        }
-      }
-    } catch (error) {
-      console.error("Error al actualizar el carrito en el servidor:", error);
     }
   };
 
   const removeProductFromCart = async (productId) => {
     try {
-      if (cartId) {
-        const response = await fetch(
-          `http://localhost:8080/api/cart/${cartId}/products/${productId}`,
-          {
-            method: "delete",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+      if (!cartId) {
+        console.error("El cartId no está definido");
+        return;
+      }
 
-        if (!response.ok) {
-          console.error("carrito actualizado en el servidor");
+      const response = await fetch(
+        `http://localhost:3000/api/cart/${cartId}/product/${productId}`,
+        {
+          method: "DELETE",
         }
+      );
+
+      if (response.ok) {
+        // Actualizar el carrito en el estado local
+        setCart((prevCart) =>
+          prevCart.filter((product) => product._id !== productId)
+        );
+        // Actualizar el carrito en el servidor
+        fetchCart(cartId);
       }
     } catch (error) {
-      console.error(
-        "Error al eliminar el producto del carrito en el servidor:",
-        error
-      );
+      console.error("Error al eliminar el producto del carrito:", error);
     }
-    setCart(updatedCart);
-    updateCartOnServer(updatedCart);
   };
 
   const clearCart = () => {
-    setCart(updatedCart);
-    updateCartOnServer(updatedCart);
+    try {
+      if (!cartId) {
+        console.error("El cartId no está definido");
+        return;
+      }
+
+      // Limpiar el carrito en el servidor
+      fetch(`http://localhost:3000/api/cart/${cartId}`, {
+        method: "DELETE",
+      });
+
+      // Limpiar el carrito en el estado local
+      setCart([]);
+    } catch (error) {
+      console.error("Error al limpiar el carrito:", error);
+    }
   };
 
   const [containerClass, setContainerClass] = useState(
@@ -153,17 +131,15 @@ const CartProvider = ({ children }) => {
     <CartContext.Provider
       value={{
         containerClass,
-        toggleContainerClass,
+        setContainerClass,
         cart,
+        cartId,
+        setCartId,
+        setCart,
         addToCart,
         removeProductFromCart,
         clearCart,
-        setCart,
-        cartId,
-        productId,
-        setCartId,
-        updateCartOnServer,
-        fetchCart,
+        toggleContainerClass,
       }}
     >
       {children}

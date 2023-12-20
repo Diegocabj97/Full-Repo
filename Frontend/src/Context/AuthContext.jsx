@@ -20,6 +20,7 @@ export const AuthProvider = ({ children }) => {
     setToken(null);
     localStorage.removeItem("authToken");
     localStorage.removeItem("authTokenExpiration");
+    localStorage.removeItem("cart");
   };
 
   useEffect(() => {
