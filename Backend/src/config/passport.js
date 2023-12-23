@@ -14,8 +14,10 @@ const ExtractJWT = jwt.ExtractJwt; //Extrar de las cookies el token
 const initializePassport = () => {
   const cookieExtractor = (req) => {
     //En lugar de tomar de las cookies directamente todo de la peticion
-    const token = req.cookies.jwtCookie ? req.cookies.jwtCookie : {};
 
+    const token = req.signedCookies.jwtCookie
+      ? req.signedCookies.jwtCookie
+      : req.cookies.jwtCookie;
     console.log("cookieExtractor", token);
 
     return token;
@@ -45,18 +47,17 @@ const initializePassport = () => {
     new LocalStrategy(
       { passReqToCallback: true, usernameField: "email" },
       async (req, username, password, done) => {
-        //Registro de usuario
-
-        const { first_name, last_name, email /*  age  */ } = req.body;
+        // Registro de usuario
+        const { first_name, last_name, email } = req.body;
 
         try {
           const user = await userModel.findOne({ email: email });
 
           if (user) {
-            //Caso de error: usuario existe
-
-            return done(null, false);
+            // Caso de error: usuario ya existe
+            return done(null, false, { message: "Usuario ya existente" });
           }
+
           /*  if (password.length < 5 || password.length > 10) {
             console.log("La contraseña debe tener entre 5 y 10 caracteres");
             return done(null, false);
@@ -71,8 +72,7 @@ const initializePassport = () => {
           const passwordHash = createHash(password);
           const userCreated = await userModel.create({
             first_name: first_name,
-            last_name: last_name /* 
-            age: age, */,
+            last_name: last_name,
             email: email,
             password: passwordHash,
           });

@@ -5,7 +5,7 @@ export const getCarts = async (req, res) => {
   const { limit } = req.query;
   try {
     const carts = await CartModel.find().limit(limit);
-    res.status(200).send({ respuesta: "ok", mensaje: carts });
+    res.status(200).send({ status: "success", payload: carts });
   } catch (error) {
     res.status(400).send({ respuesta: "Error", mensaje: error });
   }
@@ -15,7 +15,7 @@ export const getCart = async (req, res) => {
   try {
     const cart = await CartModel.findById(cid).populate("products._id");
     if (cart) {
-      res.status(200).send(cart);
+      res.status(200).send({ status: "success", payload: cart });
     } else {
       res.status(404).send("Carrito no encontrado");
     }
@@ -28,7 +28,6 @@ export const postCart = async (req, res) => {
 
   try {
     const cart = await CartModel.findById(cid).populate("products");
-    cart.products.forEach((product) => {});
     if (cart) {
       const prod = await productModel.findById(pid);
 
@@ -55,25 +54,25 @@ export const postCart = async (req, res) => {
         await cart.save();
 
         return res.status(200).send({
-          respuesta: "Ok",
-          mensaje: `Producto actualizado en el carrito.`,
+          status: "success",
+          payload: `Producto actualizado en el carrito`,
         });
       } else {
         return res.status(404).send({
-          respuesta: "Error al agregar un producto a este carrito",
-          mensaje: "Producto no encontrado",
+          status: "Error al agregar un producto a este carrito",
+          payload: "Producto no encontrado",
         });
       }
     } else {
       return res.status(404).send({
-        respuesta: "Error al agregar un producto a este carrito",
-        mensaje: "Carrito no encontrado",
+        status: "Error al agregar un producto a este carrito",
+        payload: "Carrito no encontrado",
       });
     }
   } catch (error) {
     return res.status(500).send({
-      respuesta: "Error al agregar un producto a este carrito",
-      mensaje: error.message,
+      status: "Error al agregar un producto a este carrito",
+      payload: error.message,
     });
   }
 };

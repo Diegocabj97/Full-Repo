@@ -21,7 +21,6 @@ SessionRouter.get(
 SessionRouter.get(
   "/current",
   passportError("jwt"),
-  authorization("user"),
   current
 );
 

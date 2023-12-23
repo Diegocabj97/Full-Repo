@@ -147,7 +147,6 @@ app.use(
       },
       ttl: 60, //Duracion de la sesion en la BDD en segundos
     }),
-    name: "jwtCookie",
     secret: process.env.SESSION_SECRET,
     resave: false, //Fuerzo a que se intente guardar a pesar de no tener modificacion en los datos
     saveUninitialized: false, //Fuerzo a guardar la session a pesar de no tener ningun dato

@@ -10,7 +10,6 @@ export const passportError = (strategy) => {
         return next(error); //Que la funcion que me llame maneje como va a responder ante mi error
       }
       if (!user) {
-
         return res
           .status(401)
           .send({ error: info.messages ? info.messages : info.toString() });

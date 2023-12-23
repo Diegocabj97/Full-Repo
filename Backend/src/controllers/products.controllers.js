@@ -14,7 +14,7 @@ export const getProducts = async (req, res) => {
       { limit: lim, page: pag, sort: { price: ord } }
     );
     if (prods) {
-      return res.status(200).send(prods);
+      return res.status(200).send({ status: "success", payload: { prods } });
     }
     res.status(404).send({ error: "Productos no encontrados" });
   } catch (error) {
@@ -27,7 +27,7 @@ export const getProduct = async (req, res) => {
   try {
     const prod = await productModel.findById(id);
     if (prod) {
-      return res.status(200).send(prod);
+      return res.status(200).send({ status: "success", payload: { prod } });
     }
     res.status(404).send({ error: "Producto no encontrado" });
   } catch (error) {
@@ -48,8 +48,36 @@ export const postProduct = async (req, res) => {
       category,
       quantity,
     });
+
     if (prod) {
-      return res.status(201).send(prod);
+      return res.status(200).send({ status: "success", payload: { prod } });
+    }
+    res.status(400).send({ error: "error en crear producto" });
+  } catch (error) {
+    if (error.code == 11000) {
+      res.status(404).send({ error: "Producto ya creado" });
+    } else {
+      res.status(500).send({ error: `Error en crear productos ${error}` });
+    }
+  }
+};
+export const postProductWImage = async (req, res) => {
+  const { title, description, code, price, stock, category, quantity, image } =
+    req.body;
+
+  try {
+    const prod = await productModel.create({
+      title,
+      description,
+      code,
+      price,
+      stock,
+      category,
+      quantity,
+      image,
+    });
+    if (prod) {
+      return res.status(200).send({ status: "success", payload: { prod } });
     }
     res.status(400).send({ error: "error en crear producto" });
   } catch (error) {
@@ -59,7 +87,6 @@ export const postProduct = async (req, res) => {
     res.status(500).send({ error: `Error en crear productos ${error}` });
   }
 };
-
 export const putProduct = async (req, res) => {
   const { id } = req.params;
 
@@ -73,7 +100,7 @@ export const putProduct = async (req, res) => {
       category,
     });
     if (prod) {
-      return res.status(200).send(products);
+      return res.status(200).send({ status: "success", payload: { prod } });
     }
     res.status(404).send({ error: "Producto no encontrado" });
   } catch (error) {
@@ -87,7 +114,9 @@ export const deleteProduct = async (req, res) => {
   try {
     const prod = await productModel.findByIdAndDelete(id);
     if (prod) {
-      return res.status(200).send(products);
+      return res
+        .status(200)
+        .send({ status: "success", payload: { prod } + "eliminado" });
     }
     res.status(404).send({ error: "Producto no encontrado" });
   } catch (error) {

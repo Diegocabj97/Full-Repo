@@ -14,10 +14,19 @@ export const login = async (req, res) => {
           email: req.user.email
           res.status(200).send({mensaje: "Usuario logueado"})
       }*/
+
     const userCart = req.user.cart;
     const token = generateToken(req.user);
-    res.status(200).json({ token, cart: userCart });
-    console.log(userCart);
+    res.cookie("jwtCookie", token, {
+      maxAge: 86400000,
+      HttpOnly: true,
+    });
+    res.status(200).send({
+      token,
+      cart: userCart,
+      payload: "Sesion Iniciada",
+      status: "success",
+    });
   } catch (error) {
     console.error("Error al iniciar sesión:", error);
     res.status(500).send({ mensaje: `Error al iniciar sesion ${error}` });
@@ -25,15 +34,23 @@ export const login = async (req, res) => {
 };
 export const register = async (req, res) => {
   try {
-    if (!req.user) {
-      return res.status(501).send("Usuario ya existente");
+    if (req.user) {
+      return res.status(200).send({
+        status: "success",
+        payload: "Usuario registrado exitosamente",
+      });
     } else {
-      res.status(200).send("Usuario registrado");
+      const errorMessage = req.authInfo.message || "Error en el registro";
+      return res.status(400).send({ status: "error", payload: errorMessage });
     }
   } catch (error) {
-    res.status(500).send(`Error al registrar usuario ${error}`);
+    console.error(error);
+    return res
+      .status(500)
+      .send({ status: "error", payload: "Hubo un error al registrar usuario" });
   }
 };
+
 export const logout = async (req, res) => {
   try {
     //Si la sesión se crea en la BDD
@@ -43,7 +60,7 @@ export const logout = async (req, res) => {
     res.clearCookie("jwtCookie", { path: "/" });
     res.clearCookie("cartid", { path: "/" });
     console.log("Usuario deslogeado");
-    res.status(200).send("Usuario deslogeado");
+    res.status(200).send({ payload: "Usuario deslogeado", status: "success" });
   } catch (error) {
     res.status(500).send({ resultado: "Error al cerrar sesión", error: error });
   }

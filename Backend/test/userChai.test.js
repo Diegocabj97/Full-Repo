@@ -1,11 +1,12 @@
 import chai from "chai";
-import dotenv from "dotenv/config.js";
 import mongoose from "mongoose";
 import { userModel } from "../src/models/users.models.js";
 
 const expect = chai.expect;
 
-await mongoose.connect(process.env.MONGO_URL);
+await mongoose.connect(
+  "mongodb+srv://diegojadrian97:pwDatabase@cluster0.fnd7hyr.mongodb.net/?retryWrites=true&w=majority"
+);
 
 describe("Test CRUD de Users con Chai en api/users", function () {
   /* it("Obtener todos los usuarios mediante GET", async () => {
@@ -28,7 +29,7 @@ describe("Test CRUD de Users con Chai en api/users", function () {
     };
     const user = await userModel.create(newUser);
     expect(user).to.have.property("_id");
-  });/* 
+  }); /* 
   it("Actualizar un usuario mediante put", async () => {
     const newUser = {
       first_name: "nicolas",

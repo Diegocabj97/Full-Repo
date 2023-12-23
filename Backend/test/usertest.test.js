@@ -20,7 +20,7 @@ describe("Test CRUD de usuarios en la ruta /api/users", () => {
     assert.strictEqual(Array.isArray(users), true);
   });
   it("Obtener un usuario mediante GET", async () => {
-    const user = await userModel.findById("657f9247cd2a509560b73463");
+    const user = await userModel.findById("657b3a482b1f07c361882936");
 
     assert.strictEqual(typeof user, "object");
     assert.ok(user._id);
@@ -45,14 +45,14 @@ describe("Test CRUD de usuarios en la ruta /api/users", () => {
       age: 21,
     };
     const user = await userModel.findByIdAndUpdate(
-      "657f9247cd2a509560b73463",
+      "657b3a482b1f07c361882936",
       newUser
     );
     assert.ok(user._id);
   });
   it("Eliminar un usuario mediante DELETE", async () => {
     const resultado = await userModel.findByIdAndDelete(
-      "657f9247cd2a509560b73463"
+      "657b3a482b1f07c361882936"
     );
     assert.strictEqual(typeof resultado, "object");
     assert.ok(resultado._id);

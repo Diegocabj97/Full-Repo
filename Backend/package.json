@@ -17,7 +17,8 @@
     "@faker-js/faker": "^8.3.1",
     "chai": "^4.3.10",
     "mocha": "^10.2.0",
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "supertest": "^6.3.3"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
