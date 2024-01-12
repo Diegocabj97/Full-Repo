@@ -14,7 +14,7 @@ export const getProducts = async (req, res) => {
       { limit: lim, page: pag, sort: { price: ord } }
     );
     if (prods) {
-      return res.status(200).send({ status: "success", payload: { prods } });
+      return res.status(200).send({ status: "success", payload: prods });
     }
     res.status(404).send({ error: "Productos no encontrados" });
   } catch (error) {

@@ -5,10 +5,6 @@ export const ProductsContext = createContext();
 export const ProductsProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [productId, setProductId] = useState([]);
-  useEffect(() => {
-    const ids = products.map((product) => product._id);
-    setProductId(ids);
-  }, []);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -16,8 +12,8 @@ export const ProductsProvider = ({ children }) => {
         const response = await fetch("http://localhost:3000/api/products");
         const data = await response.json();
 
-        if (data.docs) {
-          setProducts(data.docs);
+        if (data) {
+          setProducts(data.payload.docs);
         } else {
           console.log({ error: "Productos no encontrados" });
         }
@@ -28,7 +24,10 @@ export const ProductsProvider = ({ children }) => {
 
     getProducts();
   }, []);
-
+  useEffect(() => {
+    const ids = products.map((product) => product._id).toString();
+    setProductId(ids);
+  });
   return (
     <ProductsContext.Provider
       value={{

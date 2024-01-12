@@ -96,13 +96,22 @@ export const putCart = async (req, res) => {
         .send({ respuesta: "Producto no encontrado", mensaje: "Not Found" });
     }
 
+    const prod = await productModel.findById(pid);
     const indice = cart.products.findIndex(
       (prod) => prod._id._id.toString() === pid
     );
-    if (indice !== -1) {
-      cart.products[indice].quantity = quantity;
+    if (quantity === 0) {
+      // Si la cantidad es 0, elimina el producto del carrito
+      if (indice !== -1) {
+        cart.products.splice(indice, 1);
+      }
     } else {
-      cart.products.push({ _id: pid, quantity: quantity });
+      // Actualiza la cantidad si no es 0 o agrega el producto al carrito
+      if (indice !== -1) {
+        cart.products[indice].quantity = quantity;
+      } else {
+        cart.products.push({ _id: prod, quantity: quantity });
+      }
     }
 
     await cart.save();

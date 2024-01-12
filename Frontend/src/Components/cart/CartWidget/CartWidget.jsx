@@ -2,7 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Container from "react-bootstrap/Container";
 import "./CartWidget.css";
 import { useState, useContext } from "react";
-import { CartContext } from "../../../Context/CartContext";
+import { CartContext } from "../../../Context/CartContext.jsx";
 
 const CartWidget = ({ onClick, setButtonState }) => {
   const { cart } = useContext(CartContext);

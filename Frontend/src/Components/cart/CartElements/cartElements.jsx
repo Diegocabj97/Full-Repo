@@ -8,10 +8,11 @@ import { ProductsContext } from "../../../Context/ProductsContext";
 const CartElements = () => {
   const { cart, setCart, removeProductFromCart } = useContext(CartContext);
   const { productId } = useContext(ProductsContext);
+  console.log(productId);
   console.log(cart);
   const handleQuantityChange = async (value, product) => {
     const updatedCart = cart.map((cartProduct) => {
-      if (cartProduct._id === product._id) {
+      if (cartProduct === product._id) {
         const newQuantity = cartProduct.quantity + value;
 
         // Validación para asegurarse de que la cantidad no sea negativa
@@ -36,7 +37,7 @@ const CartElements = () => {
   };
 
   return cart.map((cartProduct) => (
-    <div key={cartProduct._id._id}>
+    <div key={cartProduct._id}>
       <div className="cartItem">
         <img
           className="cartItemImg"
@@ -44,8 +45,8 @@ const CartElements = () => {
           alt="products-card"
         />
         <div className="cartItem">
-          <h3 className="cartItemName">{cartProduct._id.title}</h3>
-          <h4 className="cartItemPrice">${cartProduct._id.price}</h4>
+          <h3 className="cartItemName">{cartProduct.title}</h3>
+          <h4 className="cartItemPrice">${cartProduct.price}</h4>
           <p className="cartItemQuantity">Cantidad: {cartProduct.quantity}</p>
         </div>
 

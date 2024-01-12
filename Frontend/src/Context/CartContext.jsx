@@ -6,7 +6,6 @@ const CartContext = createContext();
 const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [cartId, setCartId] = useState();
-  const { productId } = useContext(ProductsContext);
 
   useEffect(() => {
     const storedCartId = localStorage.getItem("cartid");
@@ -16,7 +15,9 @@ const CartProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    fetchCart();
+    if (cartId) {
+      fetchCart();
+    }
   }, [cartId, setCart]); // <-- Asegúrate de incluir setCart en las dependencias
 
   const fetchCart = async () => {
@@ -32,7 +33,7 @@ const CartProvider = ({ children }) => {
         }
 
         const data = await response.json();
-        const cartData = data.products;
+        const cartData = data.payload.products;
         setCart(cartData);
       }
     } catch (error) {
@@ -79,7 +80,8 @@ const CartProvider = ({ children }) => {
       const response = await fetch(
         `http://localhost:3000/api/cart/${cartId}/product/${productId}`,
         {
-          method: "DELETE",
+          method: "PUT",
+          body: { quantity: 0 },
         }
       );
 

@@ -2,15 +2,19 @@ import { Accordion, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./ContainerCarrito.css";
 import { useContext, useEffect, useState } from "react";
-import { CartContext } from "../../../Context/CartContext";
-import CartElements from "../CartElements/cartElements";
+import { CartContext } from "../../../Context/CartContext.jsx";
+import CartElements from "../CartElements/cartElements.jsx";
 import CloseCartBtn from "./CloseCartBtn";
 const ContainerCarrito = () => {
   const { cart, containerClass } = useContext(CartContext);
   const [cartTotal, setCartTotal] = useState(0);
   useEffect(() => {
-    const newTotal = cart.reduce((acc, el) => acc + el.price * el.quantity, 0);
+    const newTotal = cart.reduce(
+      (acc, el) => acc + el._id.price * el.quantity,
+      0
+    );
     setCartTotal(newTotal);
+    console.log(cartTotal);
   }, [cart]);
   const { toggleContainerClass } = useContext(CartContext);
   return cart.length > 0 ? (

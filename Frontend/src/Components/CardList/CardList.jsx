@@ -13,8 +13,8 @@ const CardList = () => {
         const response = await fetch("http://localhost:3000/api/products");
         const data = await response.json();
 
-        if (data.docs) {
-          setProds(data.docs);
+        if (data.payload) {
+          setProds(data.payload.docs);
         } else {
           console.log({ error: "Productos no encontrados" });
         }

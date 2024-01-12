@@ -7,8 +7,6 @@ import { CartContext } from "../../Context/CartContext.jsx";
 function Cards({ product }) {
   const { addToCart, cart } = useContext(CartContext);
 
-  const isProductInCart = cart.some((item) => item._id === product._id._id);
-
   const BuyButtonClick = (event) => {
     event.preventDefault();
     addToCart(product);
@@ -25,9 +23,8 @@ function Cards({ product }) {
           onClick={BuyButtonClick}
           className="ComprarBtn"
           variant="primary"
-          disabled={isProductInCart}
         >
-          {isProductInCart ? "Ya en el carrito" : "Agregar al carrito"}
+          Agregar al carrito
         </Button>
       </Card.Body>
     </Card>
