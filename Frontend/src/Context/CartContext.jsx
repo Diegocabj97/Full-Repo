@@ -26,7 +26,7 @@ const CartProvider = ({ children }) => {
         console.log("Error al obtener el carrito:");
       } else {
         const response = await fetch(
-          `http://localhost:3000/api/cart/${cartId}`
+          `http://e-commerce-diego.onrender.com/api/cart/${cartId}`
         );
         if (!response.ok) {
           throw new Error("Error al obtener el carrito con FETCH");
@@ -49,7 +49,7 @@ const CartProvider = ({ children }) => {
       }
 
       const response = await fetch(
-        `http://localhost:3000/api/cart/${cartId}/product/${product._id}`,
+        `http://e-commerce-diego.onrender.com/api/cart/${cartId}/product/${product._id}`,
         {
           method: "POST",
           headers: {
@@ -78,7 +78,7 @@ const CartProvider = ({ children }) => {
       }
 
       const response = await fetch(
-        `http://localhost:3000/api/cart/${cartId}/product/${productId}`,
+        `http://e-commerce-diego.onrender.com/api/cart/${cartId}/product/${productId}`,
         {
           method: "PUT",
           body: { quantity: 0 },
@@ -106,7 +106,7 @@ const CartProvider = ({ children }) => {
       }
 
       // Limpiar el carrito en el servidor
-      fetch(`http://localhost:3000/api/cart/${cartId}`, {
+      fetch(`http://e-commerce-diego.onrender.com/api/cart/${cartId}`, {
         method: "DELETE",
       });
 

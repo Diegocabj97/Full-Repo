@@ -9,7 +9,7 @@ export const ProductsProvider = ({ children }) => {
   useEffect(() => {
     const getProducts = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/products");
+        const response = await fetch("http://e-commerce-diego.onrender.com/api/products");
         const data = await response.json();
 
         if (data) {

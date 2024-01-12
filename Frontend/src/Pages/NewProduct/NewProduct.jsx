@@ -27,7 +27,7 @@ const NewProduct = () => {
     const data = Object.fromEntries(datForm);
     const token = getCookiesByName("jwtCookie");
     console.log(token);
-    const response = await fetch("http://localhost:3000/api/product", {
+    const response = await fetch("http://e-commerce-diego.onrender.com/api/product", {
       method: "POST",
       headers: {
         Authorization: `${token}`,

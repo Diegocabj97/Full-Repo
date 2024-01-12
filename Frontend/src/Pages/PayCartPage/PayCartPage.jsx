@@ -64,7 +64,7 @@ const PayCartPage = () => {
         // Hacer la llamada a la API solo si el formulario está completo
         if (formComplete) {
           const response = await fetch(
-            "http://localhost:8080/api/cart/:cid/purchase",
+            "http://e-commerce-diego.onrender.com/api/cart/:cid/purchase",
             {
               method: "get",
               headers: {
