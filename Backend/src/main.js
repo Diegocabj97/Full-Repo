@@ -1,5 +1,6 @@
 //Routers y DOTENV
 import router from "./Routes/index.routes.js";
+import "dotenv/config.js";
 //////////////////////
 //EXPREESS SOCKET y CORS
 import express from "express";
