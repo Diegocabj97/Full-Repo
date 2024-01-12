@@ -127,7 +127,7 @@ passport.use(
   "github",
   new githubStrategy(
     {
-      clientID: process.env.client_ID,
+      clientID: process.env.CLIENT_ID,
       clientSecret: process.env.SECRET_CLIENT,
       callbackURL: process.env.CALLBACK_URL,
     },
