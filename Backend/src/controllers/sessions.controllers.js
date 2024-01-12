@@ -57,10 +57,19 @@ export const logout = async (req, res) => {
     /* if (req.session.login) {
       req.session.destroy();
     } */
-    res.clearCookie("jwtCookie", { path: "/" });
-    res.clearCookie("cartid", { path: "/" });
-    console.log("Usuario deslogeado");
-    res.status(200).send({ payload: "Usuario deslogeado", status: "success" });
+    if (!req.session) {
+      res.clearCookie("jwtCookie", { path: "/" });
+      res.clearCookie("cartid", { path: "/" });
+      console.log("Usuario deslogeado");
+      res
+        .status(200)
+        .send({ payload: "Usuario deslogeado", status: "success" });
+    } else {
+      res.status(404).send({
+        payload: "Debes iniciar sesion previamente!",
+        status: "Error",
+      });
+    }
   } catch (error) {
     res.status(500).send({ resultado: "Error al cerrar sesión", error: error });
   }

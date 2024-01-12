@@ -17,7 +17,7 @@ msgRouter.get("/", async (req, res) => {
 
 msgRouter.post("/", async (req, res) => {
   try {
-       const newMessage = new MsgModel.create();
+    const newMessage = new MsgModel.create();
 
     await newMessage.save();
 
