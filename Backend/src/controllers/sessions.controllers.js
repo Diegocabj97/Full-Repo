@@ -57,7 +57,7 @@ export const logout = async (req, res) => {
     /* if (req.session.login) {
       req.session.destroy();
     } */
-    if (req.session) {
+    if (!req.session) {
       res.clearCookie("jwtCookie", { path: "/" });
       res.clearCookie("cartid", { path: "/" });
       console.log("Usuario deslogeado");
