@@ -28,6 +28,7 @@ h2 {
   display: flex;
   justify-content: center;
   background-color: #ff0000;
+  
 }
 @media (max-width: 1080px) {
   .App-light {

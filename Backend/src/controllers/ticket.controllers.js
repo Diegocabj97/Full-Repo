@@ -30,7 +30,9 @@ export const postCompra = async (req, res) => {
         await product.save();
       } else {
         insufficientStock = true;
-        console.log(`un producto fue eliminado del carrito por falta de stock`);
+        res
+          .status(201)
+          .send(`un producto fue eliminado del carrito por falta de stock`);
         cart.products = cart.products.filter(
           (cartItem) => cartItem._id.toString() !== product._id.toString()
         );
@@ -38,7 +40,7 @@ export const postCompra = async (req, res) => {
     }
 
     if (insufficientStock) {
-      console.log("Stock insuficiente");
+      res.status(401).send("Stock insuficiente");
       return res.redirect("/");
     }
 
@@ -53,16 +55,17 @@ export const postCompra = async (req, res) => {
     try {
       const ticket = new ticketModel({
         products: cart.products.map((item) => ({
-          title: product.title,
+          id: item._id,
+          title: item._id.title,
           quantity: item.quantity,
+          price: item._id.price,
         })),
         amount: total,
         email: userEmail,
         purchaser: cart._id,
         code: generarCodeUnico(),
       });
-      console.log("Email del ticket " + ticket.email);
-
+      console.log("Productos del carrito" + cart.products);
       await ticket.save();
       sendTicketToEmail(ticket);
       cart.products = [];

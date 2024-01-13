@@ -8,7 +8,16 @@ const ticketSchema = new Schema({
         ref: "products",
         required: true,
       },
+      title: {
+        type: String,
+        required: true,
+      },
+
       quantity: {
+        type: Number,
+        required: true,
+      },
+      price: {
         type: Number,
         required: true,
       },

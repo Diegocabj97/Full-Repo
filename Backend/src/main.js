@@ -98,9 +98,9 @@ export const sendRecoveryMail = (email, recoveryLink) => {
 };
 
 export const sendTicketToEmail = (ticket) => {
+  console.log("Ticket a enviar: " + ticket);
   const email = ticket.email;
   const products = ticket.products;
-  const quantity = ticket.products.quantity;
   const amount = ticket.amount;
   const code = ticket.code;
 
@@ -109,14 +109,20 @@ export const sendTicketToEmail = (ticket) => {
     to: email,
     subject: "Gracias por su compra!",
     html: `
-    <div style="display: flex, flex-direction:column, justify-content:center, align-items:center">
-      <h1>Confirmamos su compra!</h1>
-      <h2>Contactenos por whatsapp para coordinar su entrega</h2>
-      <h3>Estos son los productos que recibirás</h3>
-      <h4>Estos son los productos ${products.title}</h4>
-      <h4>Y esta es la cantidad ${quantity}</h4>
-      <h4>Total: $ ${amount}</h4>
-      <h4>Este es el código de tu compra: ${code}</h4>
+    <div style="align-items: center;text-align: center;">
+      <h1 style="color: #333;font-weight: bold;">Confirmamos su compra!</h1>
+      <h1 style="color: #666;font-weight: bold;">Contactenos por whatsapp para coordinar su entrega</h1>
+      <h1 style="color: #777;font-weight: bold;">Estos son los productos que recibirás</h1>
+      ${products.map(
+        (product) => `
+        <h1 style="color: #444;">${product.title}</h1>
+        <h1 style="color: #888;font-weight: bold;">Precio Unitario: $ ${product.price}</h1>
+          <h1 style="color: #888;font-weight: bold;">Cantidad: ${product.quantity}</h1>
+          <hr style="border: 1px solid;">
+        `
+      )}
+      <h4 style="color: #555;">Total: $ ${amount}</h4>
+      <h4 style="color: #555;">Este es el código de tu compra: ${code}</h4>
     </div>`,
   };
 
