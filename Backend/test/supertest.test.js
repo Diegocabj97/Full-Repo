@@ -1,7 +1,6 @@
 import chai from "chai";
 import mongoose from "mongoose";
 import supertest from "supertest";
-import dotenv from "dotenv/config.js";
 const expect = chai.expect;
 
 const requester = supertest("localhost:3000");
@@ -17,7 +16,7 @@ describe("Test CRUD de productos de la ruta api/products", function () {
   });
   it("Ruta: api/products metodo POST", async () => {
     const newProduct = {
-      title: "Plaquita de video",
+      title: "Placaaa de video",
       description: "La mejor del mundo",
       code: "ABC2345",
       price: 25000,
@@ -107,20 +106,20 @@ describe("Test CRUD de sessions de la ruta api/cart", function () {
     expect(response.body.status).to.be.equal("success");
   });
   it("Ruta:api/cart metodo GET By ID", async () => {
-    const cid = "6581a78fe27023297f9bfa37";
+    const cid = "659e9eeb4926c34d691137c6";
     const response = await requester.get(`/api/cart/${cid}`);
     expect(response.body.status).to.be.equal("success");
-    expect(response.body.payload._id).to.be.equal("6581a78fe27023297f9bfa37");
+    expect(response.body.payload._id).to.be.equal("659e9eeb4926c34d691137c6");
   });
   it("Ruta:api/cart metodo GET By ID", async () => {
-    const cid = "6581a78fe27023297f9bfa37";
+    const cid = "659e9eeb4926c34d691137c6";
     const response = await requester.get(`/api/cart/${cid}`);
     expect(response.body.status).to.be.equal("success");
-    expect(response.body.payload._id).to.be.equal("6581a78fe27023297f9bfa37");
+    expect(response.body.payload._id).to.be.equal("659e9eeb4926c34d691137c6");
   });
 
   it("Ruta:api/cart metodo POST", async () => {
-    const cid = "657b3a482b1f07c361882937";
+    const cid = "659e9eeb4926c34d691137c6";
     const pid = "657b2811fed006f7c8ca3863";
     const prodQuantity = {
       quantity: 5,
@@ -132,7 +131,7 @@ describe("Test CRUD de sessions de la ruta api/cart", function () {
     expect(_body.status).to.be.equal("success");
   });
   it("Ruta:api/cart metodo DELETE By ID", async () => {
-    const cid = "657b3a482b1f07c361882937";
+    const cid = "659e9eeb4926c34d691137c6";
     const response = await requester.delete(`/api/cart/${cid}`);
     expect(response.body.status).to.be.equal("success");
   });

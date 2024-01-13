@@ -22,8 +22,14 @@ const ticketSchema = new Schema({
     type: Number,
     required: true,
   },
+
+  email: {
+    type: String,
+    ref: "users",
+    required: true,
+  },
   purchaser: {
-    type: Schema.Types.ObjectId,
+    type: String,
     ref: "users",
     required: true,
   },

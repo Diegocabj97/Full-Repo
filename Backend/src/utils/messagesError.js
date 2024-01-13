@@ -25,10 +25,13 @@ export const passportError = (strategy) => {
 export const authorization = (role) => {
   //rol = 'Admin' desde ruta 'Crear Producto'
   return async (req, res, next) => {
+    console.log(req.user);
     if (!req.user) {
-      return res.status(401).send({ error: "User no autorizado" });
+      return res
+        .status(401)
+        .send({ error: "Usted no esta autorizado para ver este contenido" });
     }
-    if (req.user.user.role != role) {
+    if (req.user.role != role) {
       return res
         .status(403)
         .send({ error: "Usuario no tiene los permisos necesarios" });

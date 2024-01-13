@@ -18,11 +18,7 @@ SessionRouter.get(
   "/testJWT",
   passport.authenticate("jwt", { session: false }, tryJwt)
 );
-SessionRouter.get(
-  "/current",
-  passportError("jwt"),
-  current
-);
+SessionRouter.get("/current", passportError("jwt"), current);
 
 // GITHUB LOGIN
 

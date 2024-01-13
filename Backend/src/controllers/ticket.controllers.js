@@ -1,16 +1,19 @@
 import { CartModel } from "../models/cart.models.js";
 import { ticketModel } from "../models/ticket.models.js";
+import { userModel } from "../models/users.models.js";
 import { v4 as uuidv4 } from "uuid";
+import nodemailer from "nodemailer";
+import { sendTicketToEmail } from "../main.js";
 
 const generarCodeUnico = () => {
   return uuidv4();
 };
 export const postCompra = async (req, res) => {
   const cartId = req.params.cid;
+  const userEmail = req.user.email;
+
   try {
     const cart = await CartModel.findById(cartId).populate("products._id");
-
-    console.log("Cart:", cart);
 
     if (!cart) {
       return res.status(404).send("Carrito no encontrado");
@@ -50,15 +53,18 @@ export const postCompra = async (req, res) => {
     try {
       const ticket = new ticketModel({
         products: cart.products.map((item) => ({
-          _id: item._id,
+          title: product.title,
           quantity: item.quantity,
         })),
         amount: total,
+        email: userEmail,
         purchaser: cart._id,
         code: generarCodeUnico(),
       });
+      console.log("Email del ticket " + ticket.email);
 
       await ticket.save();
+      sendTicketToEmail(ticket);
       cart.products = [];
       cart.total = 0;
       await cart.save();

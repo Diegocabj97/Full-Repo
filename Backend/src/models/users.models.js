@@ -27,6 +27,20 @@ const userSchema = new Schema({
     type: String,
     default: "user",
   },
+  documents: [
+    {
+      name: {
+        type: String,
+      },
+      reference: {
+        type: String,
+      },
+    },
+  ],
+  last_connection: {
+    type: Date,
+    default: Date.now(),
+  },
   cart: {
     type: Schema.Types.ObjectId,
     ref: "carts",

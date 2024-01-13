@@ -12,17 +12,12 @@ import { sendRecoveryMail } from "../main.js";
 
 const userRouter = Router();
 
-userRouter.get("/", getAll);
-userRouter.get("/:uid", getById);
-userRouter.put("/:uid", putById);
-userRouter.delete(
-  "/:uid",
-  authorization("Admin"),
-  authorization("Admin"),
-  deleteByid
-);
-userRouter.post("/password-recovery", pwRecovery);
-
-userRouter.post("/reset-password/:token", pwReset);
+userRouter.get("/", authorization("admin"), getAll);
+userRouter.get("/:uid", authorization("user"), getById);
+userRouter.put("/:uid", authorization("user"), putById);
+userRouter.delete("/:uid", authorization("user"), deleteByid); /* 
+userRouter.post("/:uid/documents", authorization("user"), UploadDocs); */
+userRouter.post("/password-recovery", authorization("user"), pwRecovery);
+userRouter.post("/reset-password/:token", authorization("user"), pwReset);
 
 export default userRouter;

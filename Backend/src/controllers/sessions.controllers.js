@@ -1,5 +1,4 @@
 import { generateToken } from "../utils/jwt.js";
-
 export const login = async (req, res) => {
   try {
     if (!req.user) {
@@ -14,19 +13,26 @@ export const login = async (req, res) => {
           email: req.user.email
           res.status(200).send({mensaje: "Usuario logueado"})
       }*/
+    if (!req.cookies.jwtCookie) {
+      const userCart = req.user.cart;
+      const token = generateToken(req.user);
+      res.cookie("jwtCookie", token, {
+        maxAge: 86400000,
+        HttpOnly: true,
+      });
 
-    const userCart = req.user.cart;
-    const token = generateToken(req.user);
-    res.cookie("jwtCookie", token, {
-      maxAge: 86400000,
-      HttpOnly: true,
-    });
-    res.status(200).send({
-      token,
-      cart: userCart,
-      payload: "Sesion Iniciada",
-      status: "success",
-    });
+      res.status(200).send({
+        token,
+        cart: userCart,
+        payload: "Sesion Iniciada",
+        status: "success",
+      });
+    } else {
+      res.status(504).send({
+        payload: "Usted ya ha iniciado sesion",
+        status: "Error",
+      });
+    }
   } catch (error) {
     console.error("Error al iniciar sesión:", error);
     res.status(500).send({ mensaje: `Error al iniciar sesion ${error}` });
@@ -57,7 +63,9 @@ export const logout = async (req, res) => {
     /* if (req.session.login) {
       req.session.destroy();
     } */
-    if (!req.session) {
+    console.log("Cookie " + req.cookies.jwtCookie);
+
+    if (req.cookies.jwtCookie) {
       res.clearCookie("jwtCookie", { path: "/" });
       res.clearCookie("cartid", { path: "/" });
       console.log("Usuario deslogeado");

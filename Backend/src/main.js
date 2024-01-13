@@ -97,6 +97,35 @@ export const sendRecoveryMail = (email, recoveryLink) => {
   });
 };
 
+export const sendTicketToEmail = (ticket) => {
+  const email = ticket.email;
+  const products = ticket.products;
+  const quantity = ticket.products.quantity;
+  const amount = ticket.amount;
+  const code = ticket.code;
+
+  const mailOptions = {
+    from: "diegojadrian97@gmail.com",
+    to: email,
+    subject: "Gracias por su compra!",
+    html: `
+    <div style="display: flex, flex-direction:column, justify-content:center, align-items:center">
+      <h1>Confirmamos su compra!</h1>
+      <h2>Contactenos por whatsapp para coordinar su entrega</h2>
+      <h3>Estos son los productos que recibirás</h3>
+      <h4>Estos son los productos ${products.title}</h4>
+      <h4>Y esta es la cantidad ${quantity}</h4>
+      <h4>Total: $ ${amount}</h4>
+      <h4>Este es el código de tu compra: ${code}</h4>
+    </div>`,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) console.log("Error al enviar el correo electrónico:", error);
+    else console.log("Email enviado correctamente");
+  });
+};
+
 app.get("/mail", async (req, res) => {
   const resultado = await transporter.sendMail({
     from: "diegojadrian97@gmail.com",
