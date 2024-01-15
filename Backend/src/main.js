@@ -23,6 +23,7 @@ import initializePassport from "./config/passport.js";
 //MAILING y LOGGERS
 import nodemailer from "nodemailer";
 import { addlogger } from "./utils/logger.js";
+import multer from "multer";
 
 //////////////////////
 
@@ -38,7 +39,34 @@ const corsOptions = {
   },
   credentials: true,
 };
+// Middlewares
+const app = express();
+app.use(express.json());
+app.use(cors(corsOptions));
+app.use(cookieParser(process.env.SIGNED_COOKIE)); // La cookie esta firmada
+app.use(
+  session({
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGO_URL,
+      mongoOptions: {
+        useNewUrlParser: true, //Establezco que la conexion sea mediante URL
+        useUnifiedTopology: true, //Manego de clusters de manera dinamica
+      },
+      ttl: 60, //Duracion de la sesion en la BDD en segundos
+    }),
+    secret: process.env.SESSION_SECRET,
+    resave: false, //Fuerzo a que se intente guardar a pesar de no tener modificacion en los datos
+    saveUninitialized: false, //Fuerzo a guardar la session a pesar de no tener ningun dato
+  })
+);
 
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
+
+//Routes
+app.use("/", router);
+app.use(addlogger);
 const swaggerOptions = {
   definition: {
     openapi: "3.1.0",
@@ -51,7 +79,6 @@ const swaggerOptions = {
 };
 const specs = swaggerJSDoc(swaggerOptions);
 ///////////////////////
-const app = express();
 
 app.use("/apidocs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
@@ -62,6 +89,31 @@ app.use((req, res, next) => {
   next();
 });
 
+//Multer
+const profPicsStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "src/public/profile.pics");
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()} ${file.originalname}}`); //Fecha + nombre de la imagen
+  },
+});
+const prodPicsStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "src/public/product.pics");
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()} ${file.originalname}}`); //Fecha + nombre de la imagen
+  },
+});
+const docsStorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "src/public/js/documentspics");
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${file.originalname}`); //Fecha + nombre de la imagen
+  },
+});
 //Artillery
 app.get("/testArtillery", (req, res) => {
   res.send("Hola desde artillery");
@@ -167,35 +219,9 @@ mongoose
     console.log(resUsers); */
   })
   .catch(() => console.log("Error al conectarse a la BDD"));
-// Middlewares
-app.use(express.json());
-app.use(cors(corsOptions));
-app.use(cookieParser(process.env.SIGNED_COOKIE)); // La cookie esta firmada
-app.use(
-  session({
-    store: MongoStore.create({
-      mongoUrl: process.env.MONGO_URL,
-      mongoOptions: {
-        useNewUrlParser: true, //Establezco que la conexion sea mediante URL
-        useUnifiedTopology: true, //Manego de clusters de manera dinamica
-      },
-      ttl: 60, //Duracion de la sesion en la BDD en segundos
-    }),
-    secret: process.env.SESSION_SECRET,
-    resave: false, //Fuerzo a que se intente guardar a pesar de no tener modificacion en los datos
-    saveUninitialized: false, //Fuerzo a guardar la session a pesar de no tener ningun dato
-  })
-);
-
-initializePassport();
-app.use(passport.initialize());
-app.use(passport.session());
 
 ////////////////////////////////////////////////
 
-//Routes
-app.use("/", router);
-app.use(addlogger);
 app.get("/info", (req, res) => {
   req.logger.info('<span style="color:green">Texto de Info</span><br/>');
   req.res.send("Hola!");
@@ -216,6 +242,22 @@ app.get("/fatal", (req, res) => {
 app.get("/warning", (req, res) => {
   req.logger.warning('<span style="color:blue">Texto de warning</span><br/>');
   req.res.send("Hola!");
+});
+const ProfPicsUpload = multer({
+  storage: profPicsStorage,
+});
+const prodPicsUpload = multer({
+  storage: prodPicsStorage,
+});
+const upload = multer({ storage: docsStorage });
+app.post("/api/users/upload/documents", upload.single("img"), (req, res) => {
+  try {
+    console.log(req.file);
+    res.status(200).send("Imagen cargada");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error al procesar la solicitud");
+  }
 });
 //Server
 app.listen(process.env.PORT, () => {

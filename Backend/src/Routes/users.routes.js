@@ -8,15 +8,13 @@ import {
   pwRecovery,
   pwReset,
 } from "../controllers/users.controllers.js";
-import { sendRecoveryMail } from "../main.js";
 
 const userRouter = Router();
 
 userRouter.get("/", authorization("admin"), getAll);
 userRouter.get("/:uid", authorization("user"), getById);
 userRouter.put("/:uid", authorization("user"), putById);
-userRouter.delete("/:uid", authorization("user"), deleteByid); /* 
-userRouter.post("/:uid/documents", authorization("user"), UploadDocs); */
+userRouter.delete("/:uid", authorization("user"), deleteByid);
 userRouter.post("/password-recovery", authorization("user"), pwRecovery);
 userRouter.post("/reset-password/:token", authorization("user"), pwReset);
 

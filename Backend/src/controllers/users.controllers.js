@@ -107,3 +107,8 @@ export const pwReset = (req, res) => {
     res.status(500).send(`Error al modificar contraseña ${error}`);
   }
 };
+
+export const documentsUpload = (req, res) => {
+  console.log(req.file);
+  console.log(req.body);
+};
