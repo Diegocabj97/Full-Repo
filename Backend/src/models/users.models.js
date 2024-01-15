@@ -23,6 +23,7 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  thumbnail: [{ type: String }],
   role: {
     type: String,
     default: "user",

@@ -23,8 +23,9 @@ export const login = async (req, res) => {
         maxAge: 86400000,
         HttpOnly: true,
       });
-
+      const userId = req.user._id;
       res.status(200).send({
+        userId,
         token,
         cart: userCart,
         payload: "Sesion Iniciada",

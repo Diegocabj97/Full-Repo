@@ -14,10 +14,10 @@ import {
 SessionRouter.post("/login", passport.authenticate("login"), login);
 SessionRouter.post("/register", passport.authenticate("register"), register);
 SessionRouter.get("/logout", logout);
-SessionRouter.get(
+/* SessionRouter.get(
   "/testJWT",
   passport.authenticate("jwt", { session: false }, tryJwt)
-);
+); */
 SessionRouter.get("/current", passportError("jwt"), current);
 
 // GITHUB LOGIN

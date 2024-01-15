@@ -13,9 +13,9 @@ const prodsRouter = Router();
 
 prodsRouter.get("/", getProducts);
 prodsRouter.get("/:id", getProduct);
-prodsRouter.post("/", postProduct);
-prodsRouter.post("/PwI", postProductWImage);
-prodsRouter.put("/:id", putProduct);
-prodsRouter.delete("/:id", deleteProduct);
+prodsRouter.post("/", authorization("admin"), postProduct);
+prodsRouter.post("/PwI", authorization("admin"), postProductWImage);
+prodsRouter.put("/:id", authorization("admin"), putProduct);
+prodsRouter.delete("/:id", authorization("admin"), deleteProduct);
 
 export default prodsRouter;

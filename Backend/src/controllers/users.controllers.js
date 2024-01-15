@@ -1,6 +1,7 @@
 import { sendRecoveryMail } from "../main.js";
 import { userModel } from "../models/users.models.js";
 import crypto from "crypto";
+import path from "path";
 export const getAll = async (req, res) => {
   try {
     const users = await userModel.find();
@@ -117,10 +118,30 @@ export const documentsUpload = (req, res) => {
     res.status(500).send("Error al procesar la solicitud");
   }
 };
-export const profilePicsUpload = (req, res) => {
+export const profilePicsUpload = async (req, res) => {
+  const { uid } = req.params;
+  const { filename } = req.file;
   try {
-    console.log(req.file);
-    res.status(200).send("Imagen de perfil cargada");
+    const user = await userModel.findByIdAndUpdate(
+      uid,
+      {
+        $push: {
+          thumbnail: path
+            .join("src", "public", "js", "profilePics", filename)
+            .replace(/\\/g, "/")
+            .slice(0, -1),
+        },
+      },
+      { new: true }
+    );
+    if (user) {
+      res.status(200).send("Imagen de perfil cargada");
+    } else {
+      res.status(404).send({
+        respuesta: "Error al actualizar usuario",
+        mensaje: "User not found",
+      });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).send("Error al procesar la solicitud");
