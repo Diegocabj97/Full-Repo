@@ -10,7 +10,7 @@ const initialState = {
   email: "",
   password: "",
 };
-
+const URLBACKEND = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000"
 const LoginPage = ({ setButtonState }) => {
   const { setCartId, fetchCart } = useContext(CartContext);
   const { login } = useAuth();
@@ -38,7 +38,7 @@ const LoginPage = ({ setButtonState }) => {
     }
 
     try {
-      const response = await fetch("http://e-commerce-diego.onrender.com/api/sessions/login", {
+      const response = await fetch(`${URLBACKEND}/api/sessions/login`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",
