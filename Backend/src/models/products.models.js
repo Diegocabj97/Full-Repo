@@ -31,10 +31,6 @@ const productSchema = new Schema({
     type: String,
     required: true,
   },
-  quantity: {
-    type: Number,
-    required: true,
-  },
 });
 productSchema.plugin(paginate);
 export const productModel = model("products", productSchema);

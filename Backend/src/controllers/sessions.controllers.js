@@ -2,7 +2,10 @@ import { generateToken } from "../utils/jwt.js";
 export const login = async (req, res) => {
   try {
     if (!req.user) {
-      return res.status(401).send({ mensaje: "Usuario invalido" });
+      return res.status(401).send({
+        payload: "Usuario no registrado, por favor regístrese",
+        status: "Error",
+      });
     }
     /*
       Si se usa session en BDD,

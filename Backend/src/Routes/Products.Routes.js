@@ -11,11 +11,11 @@ import { authorization, passportError } from "../utils/messagesError.js";
 
 const prodsRouter = Router();
 
-prodsRouter.get("/", authorization("user"), getProducts);
-prodsRouter.get("/:id", authorization("user"), getProduct);
-prodsRouter.post("/", authorization("admin"), postProduct);
-prodsRouter.post("/PwI", authorization("admin"), postProductWImage);
-prodsRouter.put("/:pid", authorization("admin"), putProduct);
-prodsRouter.delete("/:pid", authorization("admin"), deleteProduct);
+prodsRouter.get("/", getProducts);
+prodsRouter.get("/:id", getProduct);
+prodsRouter.post("/", postProduct);
+prodsRouter.post("/PwI", postProductWImage);
+prodsRouter.put("/:id", putProduct);
+prodsRouter.delete("/:id", deleteProduct);
 
 export default prodsRouter;

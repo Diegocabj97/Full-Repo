@@ -16,9 +16,9 @@ describe("Test CRUD de productos de la ruta api/products", function () {
   });
   it("Ruta: api/products metodo POST", async () => {
     const newProduct = {
-      title: "Placaaa de video",
+      title: "Placa de video",
       description: "La mejor del mundo",
-      code: "ABC2345",
+      code: "ABC8541",
       price: 25000,
       stock: 50,
       category: "Placas de Video",
@@ -65,7 +65,7 @@ describe("Test CRUD de sessions de la ruta api/sessions", function () {
     const newUser = {
       first_name: "test",
       last_name: "test",
-      email: "test98@test.com",
+      email: "test95@test.com",
       password: "Test123",
     };
     const response = await requester
@@ -75,7 +75,7 @@ describe("Test CRUD de sessions de la ruta api/sessions", function () {
   });
   it("Ruta api/sessions/login con metodo POST", async () => {
     const loginUser = {
-      email: "test98@test.com",
+      email: "test95@test.com",
       password: "Test123",
     };
     const resultado = await requester
@@ -95,7 +95,7 @@ describe("Test CRUD de sessions de la ruta api/sessions", function () {
     const { _body } = await requester
       .get("/api/sessions/current")
       .set("Cookie", [`${cookie.name} = ${cookie.value}`]);
-    expect(_body.user.email).to.be.equal("test98@test.com");
+    expect(_body.user.email).to.be.equal("test95@test.com");
   });
 });
 

@@ -109,6 +109,29 @@ export const pwReset = (req, res) => {
 };
 
 export const documentsUpload = (req, res) => {
-  console.log(req.file);
-  console.log(req.body);
+  try {
+    console.log(req.file);
+    res.status(200).send("Imagen cargada");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error al procesar la solicitud");
+  }
+};
+export const profilePicsUpload = (req, res) => {
+  try {
+    console.log(req.file);
+    res.status(200).send("Imagen de perfil cargada");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error al procesar la solicitud");
+  }
+};
+export const prodPicsUpload = (req, res) => {
+  try {
+    console.log(req.file);
+    res.status(200).send("Imagen del producto cargada");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error al procesar la solicitud");
+  }
 };

@@ -10,9 +10,9 @@ import { authorization } from "../utils/messagesError.js";
 const router = Router();
 
 router.use("/api/users", userRouter);
-router.use("/api/sessions", SessionRouter);
+router.use("/api/session", SessionRouter);
 router.use("/api/products", prodsRouter);
-router.use("/api/cart", cartRouter);
+router.use("/api/carts", cartRouter);
 router.use("/api/messages", authorization("admin"), msgRouter);
 router.use("/api/mocking", authorization("admin"), mockRouter);
 

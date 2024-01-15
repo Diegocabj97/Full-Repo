@@ -89,7 +89,7 @@ export const postProductWImage = async (req, res) => {
 };
 export const putProduct = async (req, res) => {
   const { id } = req.params;
-
+  const { title, description, code, price, stock, category } = req.body;
   try {
     const prod = await productModel.findByIdAndUpdate(id, {
       title,
@@ -116,7 +116,7 @@ export const deleteProduct = async (req, res) => {
     if (prod) {
       return res
         .status(200)
-        .send({ status: "success", payload: { prod } + "eliminado" });
+        .send({ status: "success", payload: "El producto ha sido eliminado" });
     }
     res.status(404).send({ error: "Producto no encontrado" });
   } catch (error) {

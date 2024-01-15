@@ -23,7 +23,6 @@ import initializePassport from "./config/passport.js";
 //MAILING y LOGGERS
 import nodemailer from "nodemailer";
 import { addlogger } from "./utils/logger.js";
-import multer from "multer";
 
 //////////////////////
 
@@ -83,37 +82,12 @@ const specs = swaggerJSDoc(swaggerOptions);
 app.use("/apidocs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "http://localhost:5173");
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
   res.header("Access-Control-Allow-Headers", "Content-Type");
   next();
 });
 
-//Multer
-const profPicsStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "src/public/profile.pics");
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()} ${file.originalname}}`); //Fecha + nombre de la imagen
-  },
-});
-const prodPicsStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "src/public/product.pics");
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()} ${file.originalname}}`); //Fecha + nombre de la imagen
-  },
-});
-const docsStorage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "src/public/js/documentspics");
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${file.originalname}`); //Fecha + nombre de la imagen
-  },
-});
 //Artillery
 app.get("/testArtillery", (req, res) => {
   res.send("Hola desde artillery");
@@ -243,22 +217,7 @@ app.get("/warning", (req, res) => {
   req.logger.warning('<span style="color:blue">Texto de warning</span><br/>');
   req.res.send("Hola!");
 });
-const ProfPicsUpload = multer({
-  storage: profPicsStorage,
-});
-const prodPicsUpload = multer({
-  storage: prodPicsStorage,
-});
-const upload = multer({ storage: docsStorage });
-app.post("/api/users/upload/documents", upload.single("img"), (req, res) => {
-  try {
-    console.log(req.file);
-    res.status(200).send("Imagen cargada");
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Error al procesar la solicitud");
-  }
-});
+
 //Server
 app.listen(process.env.PORT, () => {
   console.log(`Server on Port ${process.env.PORT}`);

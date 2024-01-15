@@ -94,14 +94,16 @@ const initializePassport = () => {
           const user = await userModel.findOne({ email: username });
 
           if (!user) {
-            return done(null, false);
+            return done(null, false, {
+              message: "Usuario no registrado, por favor regístrese",
+            });
           }
 
           if (validatePassword(password, user.password)) {
             return done(null, user);
           }
 
-          return done(null, false);
+          return done(null, false, { message: "Contraseña incorrecta" });
         } catch (error) {
           return done(error);
         }
