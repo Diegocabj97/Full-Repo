@@ -24,10 +24,11 @@ import initializePassport from "./config/passport.js";
 import nodemailer from "nodemailer";
 import { addlogger } from "./utils/logger.js";
 
+import {FRONTEND_URL, PORT} from "./config.js"
 //////////////////////
 
 // CORS OPTIONS
-const whiteList = ["http://localhost:5173", "http://localhost:3000"];
+const whiteList = [FRONTEND_URL, "http://localhost:3000"];
 const corsOptions = {
   origin: function (origin, callback) {
     if (whiteList.indexOf(origin) != -1 || !origin) {
@@ -219,6 +220,6 @@ app.get("/warning", (req, res) => {
 });
 
 //Server
-app.listen(process.env.PORT, () => {
+app.listen(PORT, () => {
   console.log(`Server on Port ${process.env.PORT}`);
 });
